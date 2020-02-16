@@ -169,8 +169,8 @@ int main(int argc, char*argv[])
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 #endif
 
-    // Create Window and rendering context using GLFW, resolution is 800x600
-    GLFWwindow* window = glfwCreateWindow(800, 600, "Comp371 - Lab 02", NULL, NULL);
+    // Create Window and rendering context using GLFW, resolution is 1024x768
+    GLFWwindow* window = glfwCreateWindow(1024, 768, "COMP 371 Winter 2020 Assignment 1", NULL, NULL);
     if (window == NULL)
     {
         std::cerr << "Failed to create GLFW window" << std::endl;
