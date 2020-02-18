@@ -69,7 +69,7 @@ int main(int argc, char* argv[])
 
     // Black background
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
+   // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     // Compile and link shaders here ...
     int shaderProgram = compileAndLinkShaders();
 
@@ -154,19 +154,30 @@ int main(int argc, char* argv[])
 
         //glDrawArrays(GL_TRIANGLES, 0, 36); // 36 vertices, starting at index 0
 
-        // Draw pillars
-        mat4 pillarWorldMatrix = translate(mat4(1.0f), vec3(-1.0f, 0.0f, 0.0f)) * scale(mat4(1.0f), vec3(1.0f, 2.0f, 1.0f));
-        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &pillarWorldMatrix[0][0]);
+        // Draw left leg
+        mat4 leftLegWorldMatrix = translate(mat4(1.0f), vec3(-1.0f, 0.0f, 0.0f)) * scale(mat4(1.0f), vec3(1.5f, 1.0f, 1.0f));
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &leftLegWorldMatrix[0][0]);
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
-        pillarWorldMatrix = translate(mat4(1.0f), vec3(1.0f, 0.0f, 0.0f)) * scale(mat4(1.0f), vec3(1.0f, 2.0f, 1.0f));
-        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &pillarWorldMatrix[0][0]);
+        //Draw right leg
+        mat4 rightLegWorldMatrix = translate(mat4(1.0f), vec3(1.0f, 0.0f, 0.0f)) * scale(mat4(1.0f), vec3(1.5f, 1.0f, 1.0f));
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &rightLegWorldMatrix[0][0]);
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
-        pillarWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 2.0f, 0.0f)) * scale(mat4(1.0f), vec3(4.0f, 4.0f, 4.0f));
-        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &pillarWorldMatrix[0][0]);
+        //Draw lower body
+        mat4 lowerBodyWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 3.5f, 0.0f)) * scale(mat4(1.0f), vec3(6.0f, 6.0f, 1.0f));
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &lowerBodyWorldMatrix[0][0]);
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
+        //Draw upper body
+        mat4 upperBodyWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 7.37f, 0.0f)) * scale(mat4(1.0f), vec3(4.0f, 1.75f, 1.0f));
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &upperBodyWorldMatrix[0][0]);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        //Draw head
+        mat4 headWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 9.12f, 0.0f)) * scale(mat4(1.0f), vec3(3.0f, 1.75f, 1.0f));
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &headWorldMatrix[0][0]);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
 
         /*for (int i = 0; i < 20; ++i)
         {
