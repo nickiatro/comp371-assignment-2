@@ -69,7 +69,7 @@ int main(int argc, char* argv[])
 
     // Black background
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-   // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     // Compile and link shaders here ...
     int shaderProgram = compileAndLinkShaders();
 
@@ -177,6 +177,21 @@ int main(int argc, char* argv[])
         //Draw head
         mat4 headWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 9.12f, 0.0f)) * scale(mat4(1.0f), vec3(3.0f, 1.75f, 1.0f));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &headWorldMatrix[0][0]);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        //Draw left eye
+        mat4 leftEyeWorldMatrix = translate(mat4(1.0f), vec3(-0.7f, 9.35f, 1.0f)) * scale(mat4(1.0f), vec3(0.35f, 0.35f, 1.0f));
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &leftEyeWorldMatrix[0][0]);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        //Draw right eye
+        mat4 rightEyeWorldMatrix = translate(mat4(1.0f), vec3(0.7f, 9.35f, 1.0f)) * scale(mat4(1.0f), vec3(0.35f, 0.35f, 1.0f));
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &rightEyeWorldMatrix[0][0]);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        //Draw nose
+        mat4 noseWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 9.15f, 2.0f)) * scale(mat4(1.0f), vec3(0.35f, 0.35f, 2.0f));
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &noseWorldMatrix[0][0]);
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         /*for (int i = 0; i < 20; ++i)
