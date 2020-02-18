@@ -94,7 +94,7 @@ int main(int argc, char* argv[])
 
     // Set projection matrix for shader, this won't change
     mat4 projectionMatrix = glm::perspective(70.0f,            // field of view in degrees
-        800.0f / 600.0f,  // aspect ratio
+        1024.0f / 768.0f,  // aspect ratio
         0.01f, 100.0f);   // near and far (near > 0)
 
     GLuint projectionMatrixLocation = glGetUniformLocation(shaderProgram, "projectionMatrix");
@@ -123,8 +123,7 @@ int main(int argc, char* argv[])
     // Enable Backface culling
     glEnable(GL_CULL_FACE);
 
-    // @TODO 1 - Enable Depth Test
-    // ...
+    glEnable(GL_DEPTH_TEST); // @TODO 1
 
 
     // Container for projectiles to be implemented in tutorial
@@ -140,9 +139,8 @@ int main(int argc, char* argv[])
 
         // Each frame, reset color of each pixel to glClearColor
 
-        // @TODO 1 - Clear Depth Buffer Bit as well
-        // ...
-        glClear(GL_COLOR_BUFFER_BIT);
+        // Add the GL_DEPTH_BUFFER_BIT to glClear – TODO 1
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
         // Draw geometry
@@ -154,14 +152,23 @@ int main(int argc, char* argv[])
         GLuint worldMatrixLocation = glGetUniformLocation(shaderProgram, "worldMatrix");
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &groundWorldMatrix[0][0]);
 
-        glDrawArrays(GL_TRIANGLES, 0, 36); // 36 vertices, starting at index 0
+        //glDrawArrays(GL_TRIANGLES, 0, 36); // 36 vertices, starting at index 0
 
         // Draw pillars
-        mat4 pillarWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 10.0f, 0.0f)) * scale(mat4(1.0f), vec3(2.0f, 20.0f, 2.0f));
+        mat4 pillarWorldMatrix = translate(mat4(1.0f), vec3(-1.0f, 0.0f, 0.0f)) * scale(mat4(1.0f), vec3(1.0f, 2.0f, 1.0f));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &pillarWorldMatrix[0][0]);
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
-        for (int i = 0; i < 20; ++i)
+        pillarWorldMatrix = translate(mat4(1.0f), vec3(1.0f, 0.0f, 0.0f)) * scale(mat4(1.0f), vec3(1.0f, 2.0f, 1.0f));
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &pillarWorldMatrix[0][0]);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        pillarWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 2.0f, 0.0f)) * scale(mat4(1.0f), vec3(4.0f, 4.0f, 4.0f));
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &pillarWorldMatrix[0][0]);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+
+        /*for (int i = 0; i < 20; ++i)
         {
             for (int j = 0; j < 20; ++j)
             {
@@ -173,8 +180,8 @@ int main(int argc, char* argv[])
                 glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &pillarWorldMatrix[0][0]);
                 glDrawArrays(GL_TRIANGLES, 0, 36);
             }
-        }
-
+        }*/
+   
         // @TODO 3 - Update and draw projectiles
         // ...
 
@@ -192,7 +199,7 @@ int main(int argc, char* argv[])
 
             glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &spinningCubeWorldMatrix[0][0]);
         }
-        glDrawArrays(GL_TRIANGLES, 0, 36);
+        //glDrawArrays(GL_TRIANGLES, 0, 36);
 
 
         glBindVertexArray(0);
@@ -403,53 +410,53 @@ int createVertexArrayObject()
 {
     // Cube model
     vec3 vertexArray[] = {  // position,                            color
-        vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 0.0f, 0.0f), //left - red
-        vec3(-0.5f,-0.5f, 0.5f), vec3(1.0f, 0.0f, 0.0f),
-        vec3(-0.5f, 0.5f, 0.5f), vec3(1.0f, 0.0f, 0.0f),
+        vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), //left - red
+        vec3(-0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(-0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
 
-        vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 0.0f, 0.0f),
-        vec3(-0.5f, 0.5f, 0.5f), vec3(1.0f, 0.0f, 0.0f),
-        vec3(-0.5f, 0.5f,-0.5f), vec3(1.0f, 0.0f, 0.0f),
+        vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(-0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(-0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
 
-        vec3(0.5f, 0.5f,-0.5f), vec3(0.0f, 0.0f, 1.0f), // far - blue
-        vec3(-0.5f,-0.5f,-0.5f), vec3(0.0f, 0.0f, 1.0f),
-        vec3(-0.5f, 0.5f,-0.5f), vec3(0.0f, 0.0f, 1.0f),
+        vec3(0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), // far - blue
+        vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(-0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
 
-        vec3(0.5f, 0.5f,-0.5f), vec3(0.0f, 0.0f, 1.0f),
-        vec3(0.5f,-0.5f,-0.5f), vec3(0.0f, 0.0f, 1.0f),
-        vec3(-0.5f,-0.5f,-0.5f), vec3(0.0f, 0.0f, 1.0f),
+        vec3(0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
 
-        vec3(0.5f,-0.5f, 0.5f), vec3(0.0f, 1.0f, 1.0f), // bottom - turquoise
-        vec3(-0.5f,-0.5f,-0.5f), vec3(0.0f, 1.0f, 1.0f),
-        vec3(0.5f,-0.5f,-0.5f), vec3(0.0f, 1.0f, 1.0f),
+        vec3(0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), // bottom - turquoise
+        vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
 
-        vec3(0.5f,-0.5f, 0.5f), vec3(0.0f, 1.0f, 1.0f),
-        vec3(-0.5f,-0.5f, 0.5f), vec3(0.0f, 1.0f, 1.0f),
-        vec3(-0.5f,-0.5f,-0.5f), vec3(0.0f, 1.0f, 1.0f),
+        vec3(0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(-0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
 
-        vec3(-0.5f, 0.5f, 0.5f), vec3(0.0f, 1.0f, 0.0f), // near - green
-        vec3(-0.5f,-0.5f, 0.5f), vec3(0.0f, 1.0f, 0.0f),
-        vec3(0.5f,-0.5f, 0.5f), vec3(0.0f, 1.0f, 0.0f),
+        vec3(-0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), // near - green
+        vec3(-0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
 
-        vec3(0.5f, 0.5f, 0.5f), vec3(0.0f, 1.0f, 0.0f),
-        vec3(-0.5f, 0.5f, 0.5f), vec3(0.0f, 1.0f, 0.0f),
-        vec3(0.5f,-0.5f, 0.5f), vec3(0.0f, 1.0f, 0.0f),
+        vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(-0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
 
-        vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 0.0f, 1.0f), // right - purple
-        vec3(0.5f,-0.5f,-0.5f), vec3(1.0f, 0.0f, 1.0f),
-        vec3(0.5f, 0.5f,-0.5f), vec3(1.0f, 0.0f, 1.0f),
+        vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), // right - purple
+        vec3(0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
 
-        vec3(0.5f,-0.5f,-0.5f), vec3(1.0f, 0.0f, 1.0f),
-        vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 0.0f, 1.0f),
-        vec3(0.5f,-0.5f, 0.5f), vec3(1.0f, 0.0f, 1.0f),
+        vec3(0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
 
-        vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 0.0f), // top - yellow
-        vec3(0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 0.0f),
-        vec3(-0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 0.0f),
+        vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), // top - yellow
+        vec3(0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(-0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
 
-        vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 0.0f),
-        vec3(-0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 0.0f),
-        vec3(-0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 0.0f)
+        vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(-0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(-0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f)
     };
 
 
@@ -505,7 +512,7 @@ bool initContext() {     // Initialize GLFW and OpenGL version
 #endif
 
     // Create Window and rendering context using GLFW, resolution is 800x600
-    window = glfwCreateWindow(800, 600, "Comp371 - Lab 03", NULL, NULL);
+    window = glfwCreateWindow(1024, 768, "COMP371 Winter 2020 Assignment 1", NULL, NULL);
     if (window == NULL)
     {
         std::cerr << "Failed to create GLFW window" << std::endl;
