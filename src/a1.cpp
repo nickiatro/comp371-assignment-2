@@ -40,8 +40,8 @@ int main(int argc, char* argv[])
     if (!initContext()) return -1;
 
     // Black background
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-   //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glClearColor(0.0f, 0.5f, 1.0f, 1.0f);
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     // Compile and link shaders here ...
     int shaderProgram = compileAndLinkShaders();
 
@@ -173,7 +173,7 @@ int main(int argc, char* argv[])
         //Draw hair
         mat4 hairWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 10.75f, 0.0f)) * scale(mat4(1.0f), vec3(0.1f, 3.0f, 1.0f));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &hairWorldMatrix[0][0]);
-        glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 0.0f)));
+        glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw hair
@@ -185,7 +185,7 @@ int main(int argc, char* argv[])
         //Draw hair
         hairWorldMatrix = translate(mat4(1.0f), vec3(0.4f, 10.75f, 0.0f)) * scale(mat4(1.0f), vec3(0.1f, 3.0f, 1.0f));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &hairWorldMatrix[0][0]);
-        glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 0.0f)));
+        glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw mouth
@@ -194,6 +194,35 @@ int main(int argc, char* argv[])
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
+        //Draw left arm
+        mat4 armWorldMatrix = translate(mat4(1.0f), vec3(-4.0f, 7.37f, 0.0f)) * scale(mat4(1.0f), vec3(6.0f, 0.4f, 1.0f));
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &armWorldMatrix[0][0]);
+        glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        //Draw right arm
+        armWorldMatrix = translate(mat4(1.0f), vec3(4.0f, 7.37f, 0.0f)) * scale(mat4(1.0f), vec3(6.0f, 0.4f, 1.0f));
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &armWorldMatrix[0][0]);
+        glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        //Draw x-axis
+        mat4 axisWorldMatrix = translate(mat4(1.0f), vec3(2.5f, 0.0f, 0.0f)) * scale(mat4(1.0f), vec3(5.0f, 0.1f, 0.1f));
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &axisWorldMatrix[0][0]);
+        glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 0.0f, 0.0f)));
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        //Draw y-axis
+        axisWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 2.5f, 0.0f)) * scale(mat4(1.0f), vec3(0.1f, 5.0f, 0.1f));
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &axisWorldMatrix[0][0]);
+        glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 1.0f)));
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        //Draw z-axis
+        axisWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 0.0f, 2.5f)) * scale(mat4(1.0f), vec3(0.1f, 0.1f, 5.0f));
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &axisWorldMatrix[0][0]);
+        glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 1.0f, 0.0f)));
+        glDrawArrays(GL_TRIANGLES, 0, 36);
 
         /*for (int i = 0; i < 20; ++i)
         {
