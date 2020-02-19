@@ -16,40 +16,12 @@
 #include <glm/glm.hpp>  // GLM is an optimized math library with syntax to similar to OpenGL Shading Language
 #include <glm/gtc/matrix_transform.hpp> // include this to create transformation matrices
 #include <glm/common.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 
 using namespace glm;
 using namespace std;
-
-
-class Projectile
-{
-public:
-    Projectile(vec3 position, vec3 velocity, int shaderProgram) : mPosition(position), mVelocity(velocity)
-    {
-        mWorldMatrixLocation = glGetUniformLocation(shaderProgram, "worldMatrix");
-
-    }
-
-    void Update(float dt)
-    {
-        mPosition += mVelocity * dt;
-    }
-
-    void Draw() {
-        // this is a bit of a shortcut, since we have a single vbo, it is already bound
-        // let's just set the world matrix in the vertex shader
-
-        mat4 worldMatrix = translate(mat4(1.0f), mPosition) * rotate(mat4(1.0f), radians(180.0f), vec3(0.0f, 1.0f, 0.0f)) * scale(mat4(1.0f), vec3(0.2f, 0.2f, 0.2f));
-        glUniformMatrix4fv(mWorldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
-    }
-
-private:
-    GLuint mWorldMatrixLocation;
-    vec3 mPosition;
-    vec3 mVelocity;
-};
 
 const char* getVertexShaderSource();
 
@@ -69,13 +41,14 @@ int main(int argc, char* argv[])
 
     // Black background
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+   //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     // Compile and link shaders here ...
     int shaderProgram = compileAndLinkShaders();
 
     // We can set the shader once, since we have only one
     glUseProgram(shaderProgram);
 
+    GLuint colourLocation = glGetUniformLocation(shaderProgram, "objectColour");
 
     // Camera parameters for view transform
     vec3 cameraPosition(0.6f, 1.0f, 10.0f);
@@ -125,11 +98,6 @@ int main(int argc, char* argv[])
 
     glEnable(GL_DEPTH_TEST); // @TODO 1
 
-
-    // Container for projectiles to be implemented in tutorial
-    list<Projectile> projectileList;
-
-
     // Entering Game Loop
     while (!glfwWindowShouldClose(window))
     {
@@ -150,49 +118,82 @@ int main(int argc, char* argv[])
         // Draw ground
         mat4 groundWorldMatrix = translate(mat4(1.0f), vec3(0.0f, -0.01f, 0.0f)) * scale(mat4(1.0f), vec3(1000.0f, 0.02f, 1000.0f));
         GLuint worldMatrixLocation = glGetUniformLocation(shaderProgram, "worldMatrix");
-        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &groundWorldMatrix[0][0]);
+        //glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &groundWorldMatrix[0][0]);
 
         //glDrawArrays(GL_TRIANGLES, 0, 36); // 36 vertices, starting at index 0
 
         // Draw left leg
-        mat4 leftLegWorldMatrix = translate(mat4(1.0f), vec3(-1.0f, 0.0f, 0.0f)) * scale(mat4(1.0f), vec3(1.5f, 1.0f, 1.0f));
-        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &leftLegWorldMatrix[0][0]);
+        mat4 legWorldMatrix = translate(mat4(1.0f), vec3(-1.0f, 0.0f, 0.0f)) * scale(mat4(1.0f), vec3(1.5f, 1.0f, 1.0f));
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &legWorldMatrix[0][0]);
+        glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw right leg
-        mat4 rightLegWorldMatrix = translate(mat4(1.0f), vec3(1.0f, 0.0f, 0.0f)) * scale(mat4(1.0f), vec3(1.5f, 1.0f, 1.0f));
-        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &rightLegWorldMatrix[0][0]);
+        legWorldMatrix = translate(mat4(1.0f), vec3(1.0f, 0.0f, 0.0f)) * scale(mat4(1.0f), vec3(1.5f, 1.0f, 1.0f));
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &legWorldMatrix[0][0]);
+        glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw lower body
         mat4 lowerBodyWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 3.5f, 0.0f)) * scale(mat4(1.0f), vec3(6.0f, 6.0f, 1.0f));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &lowerBodyWorldMatrix[0][0]);
+        glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw upper body
         mat4 upperBodyWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 7.37f, 0.0f)) * scale(mat4(1.0f), vec3(4.0f, 1.75f, 1.0f));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &upperBodyWorldMatrix[0][0]);
+        glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw head
         mat4 headWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 9.12f, 0.0f)) * scale(mat4(1.0f), vec3(3.0f, 1.75f, 1.0f));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &headWorldMatrix[0][0]);
+        glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw left eye
-        mat4 leftEyeWorldMatrix = translate(mat4(1.0f), vec3(-0.7f, 9.35f, 1.0f)) * scale(mat4(1.0f), vec3(0.35f, 0.35f, 1.0f));
-        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &leftEyeWorldMatrix[0][0]);
+        mat4 eyeWorldMatrix = translate(mat4(1.0f), vec3(-0.7f, 9.35f, 1.0f)) * scale(mat4(1.0f), vec3(0.35f, 0.35f, 1.0f));
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &eyeWorldMatrix[0][0]);
+        glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw right eye
-        mat4 rightEyeWorldMatrix = translate(mat4(1.0f), vec3(0.7f, 9.35f, 1.0f)) * scale(mat4(1.0f), vec3(0.35f, 0.35f, 1.0f));
-        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &rightEyeWorldMatrix[0][0]);
+        eyeWorldMatrix = translate(mat4(1.0f), vec3(0.7f, 9.35f, 1.0f)) * scale(mat4(1.0f), vec3(0.35f, 0.35f, 1.0f));
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &eyeWorldMatrix[0][0]);
+        glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw nose
         mat4 noseWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 9.15f, 2.0f)) * scale(mat4(1.0f), vec3(0.35f, 0.35f, 2.0f));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &noseWorldMatrix[0][0]);
+        glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 0.5f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        //Draw hair
+        mat4 hairWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 10.75f, 0.0f)) * scale(mat4(1.0f), vec3(0.1f, 3.0f, 1.0f));
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &hairWorldMatrix[0][0]);
+        glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 0.0f)));
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        //Draw hair
+        hairWorldMatrix = translate(mat4(1.0f), vec3(-0.4f, 10.75f, 0.0f)) * scale(mat4(1.0f), vec3(0.1f, 3.0f, 1.0f));
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &hairWorldMatrix[0][0]);
+        glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        //Draw hair
+        hairWorldMatrix = translate(mat4(1.0f), vec3(0.4f, 10.75f, 0.0f)) * scale(mat4(1.0f), vec3(0.1f, 3.0f, 1.0f));
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &hairWorldMatrix[0][0]);
+        glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 0.0f)));
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        //Draw mouth
+        mat4 mouthWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 8.7f, 0.7f)) * scale(mat4(1.0f), vec3(0.35f, 0.35f, 0.0f));
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &mouthWorldMatrix[0][0]);
+        glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
 
         /*for (int i = 0; i < 20; ++i)
         {
@@ -369,11 +370,12 @@ const char* getFragmentShaderSource()
 {
     return
         "#version 330 core\n"
+        "uniform vec3 objectColour;"
         "in vec3 vertexColor;"
         "out vec4 FragColor;"
         "void main()"
         "{"
-        "   FragColor = vec4(vertexColor.r, vertexColor.g, vertexColor.b, 1.0f);"
+        "   FragColor = vec4(objectColour.r, objectColour.g, objectColour.b, 1.0f);"
         "}";
 }
 
@@ -533,8 +535,8 @@ bool initContext() {     // Initialize GLFW and OpenGL version
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #else
     // On windows, we set OpenGL version to 2.1, to support more hardware
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 #endif
 
     // Create Window and rendering context using GLFW, resolution is 800x600
