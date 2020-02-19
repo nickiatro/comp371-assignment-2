@@ -123,85 +123,85 @@ int main(int argc, char* argv[])
         //glDrawArrays(GL_TRIANGLES, 0, 36); // 36 vertices, starting at index 0
 
         // Draw left leg
-        mat4 legWorldMatrix = translate(mat4(1.0f), vec3(-1.0f, 0.0f, 0.0f)) * scale(mat4(1.0f), vec3(1.5f, 1.0f, 1.0f));
+        mat4 legWorldMatrix = translate(mat4(1.0f), vec3(-1.0f, 0.5f, 0.0f)) * scale(mat4(1.0f), vec3(1.5f, 1.0f, 1.0f));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &legWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw right leg
-        legWorldMatrix = translate(mat4(1.0f), vec3(1.0f, 0.0f, 0.0f)) * scale(mat4(1.0f), vec3(1.5f, 1.0f, 1.0f));
+        legWorldMatrix = translate(mat4(1.0f), vec3(1.0f, 0.5f, 0.0f)) * scale(mat4(1.0f), vec3(1.5f, 1.0f, 1.0f));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &legWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw lower body
-        mat4 lowerBodyWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 3.5f, 0.0f)) * scale(mat4(1.0f), vec3(6.0f, 6.0f, 1.0f));
+        mat4 lowerBodyWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 4.0f, 0.0f)) * scale(mat4(1.0f), vec3(6.0f, 6.0f, 1.0f));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &lowerBodyWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw upper body
-        mat4 upperBodyWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 7.37f, 0.0f)) * scale(mat4(1.0f), vec3(4.0f, 1.75f, 1.0f));
+        mat4 upperBodyWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 7.87f, 0.0f)) * scale(mat4(1.0f), vec3(4.0f, 1.75f, 1.0f));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &upperBodyWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw head
-        mat4 headWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 9.12f, 0.0f)) * scale(mat4(1.0f), vec3(3.0f, 1.75f, 1.0f));
+        mat4 headWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 9.62f, 0.0f)) * scale(mat4(1.0f), vec3(3.0f, 1.75f, 1.0f));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &headWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw left eye
-        mat4 eyeWorldMatrix = translate(mat4(1.0f), vec3(-0.7f, 9.35f, 1.0f)) * scale(mat4(1.0f), vec3(0.35f, 0.35f, 1.0f));
+        mat4 eyeWorldMatrix = translate(mat4(1.0f), vec3(-0.7f, 9.85f, 1.0f)) * scale(mat4(1.0f), vec3(0.35f, 0.35f, 1.0f));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &eyeWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw right eye
-        eyeWorldMatrix = translate(mat4(1.0f), vec3(0.7f, 9.35f, 1.0f)) * scale(mat4(1.0f), vec3(0.35f, 0.35f, 1.0f));
+        eyeWorldMatrix = translate(mat4(1.0f), vec3(0.7f, 9.85f, 1.0f)) * scale(mat4(1.0f), vec3(0.35f, 0.35f, 1.0f));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &eyeWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw nose
-        mat4 noseWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 9.15f, 2.0f)) * scale(mat4(1.0f), vec3(0.35f, 0.35f, 2.0f));
+        mat4 noseWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 9.65f, 2.0f)) * scale(mat4(1.0f), vec3(0.35f, 0.35f, 2.0f));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &noseWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 0.5f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw hair
-        mat4 hairWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 10.75f, 0.0f)) * scale(mat4(1.0f), vec3(0.1f, 3.0f, 1.0f));
+        mat4 hairWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 11.25f, 0.0f)) * scale(mat4(1.0f), vec3(0.1f, 3.0f, 1.0f));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &hairWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw hair
-        hairWorldMatrix = translate(mat4(1.0f), vec3(-0.4f, 10.75f, 0.0f)) * scale(mat4(1.0f), vec3(0.1f, 3.0f, 1.0f));
+        hairWorldMatrix = translate(mat4(1.0f), vec3(-0.4f, 11.25f, 0.0f)) * scale(mat4(1.0f), vec3(0.1f, 3.0f, 1.0f));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &hairWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw hair
-        hairWorldMatrix = translate(mat4(1.0f), vec3(0.4f, 10.75f, 0.0f)) * scale(mat4(1.0f), vec3(0.1f, 3.0f, 1.0f));
+        hairWorldMatrix = translate(mat4(1.0f), vec3(0.4f, 11.25f, 0.0f)) * scale(mat4(1.0f), vec3(0.1f, 3.0f, 1.0f));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &hairWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw mouth
-        mat4 mouthWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 8.7f, 0.7f)) * scale(mat4(1.0f), vec3(0.35f, 0.35f, 0.0f));
+        mat4 mouthWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 9.2f, 0.7f)) * scale(mat4(1.0f), vec3(0.35f, 0.35f, 0.0f));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &mouthWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw left arm
-        mat4 armWorldMatrix = translate(mat4(1.0f), vec3(-4.0f, 7.37f, 0.0f)) * scale(mat4(1.0f), vec3(6.0f, 0.4f, 1.0f));
+        mat4 armWorldMatrix = translate(mat4(1.0f), vec3(-4.0f, 7.87f, 0.0f)) * scale(mat4(1.0f), vec3(6.0f, 0.4f, 1.0f));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &armWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw right arm
-        armWorldMatrix = translate(mat4(1.0f), vec3(4.0f, 7.37f, 0.0f)) * scale(mat4(1.0f), vec3(6.0f, 0.4f, 1.0f));
+        armWorldMatrix = translate(mat4(1.0f), vec3(4.0f, 7.87f, 0.0f)) * scale(mat4(1.0f), vec3(6.0f, 0.4f, 1.0f));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &armWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -215,14 +215,19 @@ int main(int argc, char* argv[])
         //Draw y-axis
         axisWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 2.5f, 0.0f)) * scale(mat4(1.0f), vec3(0.1f, 5.0f, 0.1f));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &axisWorldMatrix[0][0]);
-        glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 1.0f)));
+        glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 1.0f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw z-axis
         axisWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 0.0f, 2.5f)) * scale(mat4(1.0f), vec3(0.1f, 0.1f, 5.0f));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &axisWorldMatrix[0][0]);
-        glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 1.0f, 0.0f)));
+        glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        /*mat4 floorWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 0.0f, 0.0f)) * scale(mat4(1.0f), vec3(1.1f, 1.0f, 5.0f));
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &floorWorldMatrix[0][0]);
+        glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
+        glDrawArrays(GL_TRIANGLES, 0, 36);*/
 
         /*for (int i = 0; i < 20; ++i)
         {
