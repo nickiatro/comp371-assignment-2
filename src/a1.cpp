@@ -51,7 +51,7 @@ int main(int argc, char* argv[])
     GLuint colourLocation = glGetUniformLocation(shaderProgram, "objectColour");
 
     // Camera parameters for view transform
-    vec3 cameraPosition(0.6f, 1.0f, 10.0f);
+    vec3 cameraPosition(0.6f, 1.0f, 20.0f);
     vec3 cameraLookAt(0.0f, 0.0f, -1.0f);
     vec3 cameraUp(0.0f, 1.0f, 0.0f);
 
@@ -115,12 +115,7 @@ int main(int argc, char* argv[])
         glBindVertexArray(vao);
         //glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
-        // Draw ground
-        mat4 groundWorldMatrix = translate(mat4(1.0f), vec3(0.0f, -0.01f, 0.0f)) * scale(mat4(1.0f), vec3(1000.0f, 0.02f, 1000.0f));
         GLuint worldMatrixLocation = glGetUniformLocation(shaderProgram, "worldMatrix");
-        //glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &groundWorldMatrix[0][0]);
-
-        //glDrawArrays(GL_TRIANGLES, 0, 36); // 36 vertices, starting at index 0
 
         // Draw left leg
         mat4 legWorldMatrix = translate(mat4(1.0f), vec3(-1.0f, 0.5f, 0.0f)) * scale(mat4(1.0f), vec3(1.5f, 1.0f, 1.0f));
@@ -224,10 +219,22 @@ int main(int argc, char* argv[])
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
-        /*mat4 floorWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 0.0f, 0.0f)) * scale(mat4(1.0f), vec3(1.1f, 1.0f, 5.0f));
-        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &floorWorldMatrix[0][0]);
-        glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
-        glDrawArrays(GL_TRIANGLES, 0, 36);*/
+        //Draw floor
+        mat4 floorWorldMatrix;
+
+        for (float i = -50.0f; i <= 50.0f; i++) {
+            floorWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 0.0f, i)) * scale(mat4(1.0f), vec3(100.0f, 0.02f, 0.02f));
+            glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &floorWorldMatrix[0][0]);
+            glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 0.0f)));
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
+
+        for (float i = -50.0f; i <= 50.0f; i++) {
+            floorWorldMatrix = translate(mat4(1.0f), vec3(i, 0.0f, 0.0f)) * scale(mat4(1.0f), vec3(0.02f, 0.02f, 100.0f));
+            glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &floorWorldMatrix[0][0]);
+            glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 0.0f)));
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
 
         /*for (int i = 0; i < 20; ++i)
         {
