@@ -306,7 +306,7 @@ int main(int argc, char* argv[])
         // @TODO 4 - Calculate mouse motion dx and dy
         //         - Update camera horizontal and vertical angle
 
-       /* double mousePosX, mousePosY;
+       double mousePosX, mousePosY;
         glfwGetCursorPos(window, &mousePosX, &mousePosY);
 
         double dx = mousePosX - lastMousePosX;
@@ -315,30 +315,61 @@ int main(int argc, char* argv[])
         lastMousePosX = mousePosX;
         lastMousePosY = mousePosY;
 
-        // Convert to spherical coordinates
-        const float cameraAngularSpeed = 60.0f;
-        cameraHorizontalAngle -= dx * cameraAngularSpeed * dt;
-        cameraVerticalAngle   -= dy * cameraAngularSpeed * dt;
+       
 
-        // Clamp vertical angle to [-85, 85] degrees
-        cameraVerticalAngle = std::max(-85.0f, std::min(85.0f, cameraVerticalAngle));
-        if (cameraHorizontalAngle > 360)
+        if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_PRESS)
         {
-            cameraHorizontalAngle -= 360;
+            // Convert to spherical coordinates
+            const float cameraAngularSpeed = 60.0f;
+            cameraVerticalAngle -= dy * cameraAngularSpeed * dt;
+
+            // Clamp vertical angle to [-85, 85] degrees
+            cameraVerticalAngle = std::max(-85.0f, std::min(85.0f, cameraVerticalAngle));
+            if (cameraHorizontalAngle > 360)
+            {
+                cameraHorizontalAngle -= 360;
+            }
+            else if (cameraHorizontalAngle < -360)
+            {
+                cameraHorizontalAngle += 360;
+            }
+
+            //float theta = radians(cameraHorizontalAngle);
+            float phi = radians(cameraVerticalAngle);
+
+            cameraLookAt = vec3(cosf(phi), sinf(phi), -cosf(phi));
+            vec3 cameraSideVector = glm::cross(cameraLookAt, vec3(0.0f, 1.0f, 0.0f));
+
+            glm::normalize(cameraSideVector);
         }
-        else if (cameraHorizontalAngle < -360)
+
+        if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
         {
-            cameraHorizontalAngle += 360;
+            // Convert to spherical coordinates
+            const float cameraAngularSpeed = 60.0f;
+            cameraHorizontalAngle -= dx * cameraAngularSpeed * dt;
+
+            // Clamp vertical angle to [-85, 85] degrees
+            cameraVerticalAngle = std::max(-85.0f, std::min(85.0f, cameraVerticalAngle));
+            if (cameraHorizontalAngle > 360)
+            {
+                cameraHorizontalAngle -= 360;
+            }
+            else if (cameraHorizontalAngle < -360)
+            {
+                cameraHorizontalAngle += 360;
+            }
+
+            float theta = radians(cameraHorizontalAngle);
+            //float phi = radians(cameraVerticalAngle);
+
+            cameraLookAt = vec3(cosf(theta), 0, sinf(theta));
+            vec3 cameraSideVector = glm::cross(cameraLookAt, vec3(0.0f, 1.0f, 0.0f));
+
+            glm::normalize(cameraSideVector);
         }
+        
 
-        float theta = radians(cameraHorizontalAngle);
-        float phi = radians(cameraVerticalAngle);
-
-        cameraLookAt = vec3(cosf(phi)*cosf(theta), sinf(phi), -cosf(phi)*sinf(theta));
-        vec3 cameraSideVector = glm::cross(cameraLookAt, vec3(0.0f, 1.0f, 0.0f));
-
-        glm::normalize(cameraSideVector);
-        */
         //////////////////////////////////////////////////////////////////////////////////////////////
 
         double dxKey = keyX - lastKeyX;
@@ -410,18 +441,18 @@ int main(int argc, char* argv[])
         if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS && !((glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) || (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS))) // move camera to the left
         {
 
-            cameraPosition.x -= currentCameraSpeed * dt;
+            
         }
 
         if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS && ((glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) || (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS))) // move olaf to the right
         {
             if (x <= 50)
-            x += 0.01;
+                x += 0.01;
         }
 
         if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS && !((glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) || (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS))) // move camera to the right
         {
-            cameraPosition.x += currentCameraSpeed * dt;
+           
         }
 
         if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && ((glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) || (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS))) // move olaf forwards
@@ -432,7 +463,7 @@ int main(int argc, char* argv[])
 
         if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && !((glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) || (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS))) // move camera up
         {
-            cameraPosition.y -= currentCameraSpeed * dt;
+           
         }
 
         if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && ((glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) || (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS))) // move olaf backwards
@@ -443,7 +474,7 @@ int main(int argc, char* argv[])
 
         if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && !((glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) || (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS))) // move camera down
         {
-            cameraPosition.y += currentCameraSpeed * dt;
+            
         }
 
         if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
