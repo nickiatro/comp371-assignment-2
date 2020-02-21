@@ -61,6 +61,7 @@ int main(int argc, char* argv[])
     float cameraFastSpeed = 2 * cameraSpeed;
     float cameraHorizontalAngle = 90.0f;
     float cameraVerticalAngle = 0.0f;
+    float cameraZoom = 0.0f;
     bool  cameraFirstPerson = true; // press 1 or 2 to toggle this variable
 
     // Spinning cube at camera position
@@ -316,7 +317,12 @@ int main(int argc, char* argv[])
         lastMousePosY = mousePosY;
 
        
-
+        if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+        {
+            const float cameraAngularSpeed = 60.0f;
+            cameraZoom -= dy * cameraAngularSpeed * dt;
+            cameraPosition = vec3(-5.0f, 9.5f, 20.0f + cameraZoom);
+        }
         if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_PRESS)
         {
             // Convert to spherical coordinates
@@ -348,7 +354,7 @@ int main(int argc, char* argv[])
             const float cameraAngularSpeed = 60.0f;
             cameraHorizontalAngle -= dx * cameraAngularSpeed * dt;
 
-            // Clamp vertical angle to [-85, 85] degrees
+           // Clamp vertical angle to [-85, 85] degrees
             cameraVerticalAngle = std::max(-85.0f, std::min(85.0f, cameraVerticalAngle));
             if (cameraHorizontalAngle > 360)
             {
@@ -381,7 +387,7 @@ int main(int argc, char* argv[])
         cameraHorizontalAngle -= dxKey * cameraAngularSpeed * dt;
         cameraVerticalAngle -= dyKey * cameraAngularSpeed * dt;
 
-        // Clamp vertical angle to [-85, 85] degrees
+       /* // Clamp vertical angle to [-85, 85] degrees
         cameraVerticalAngle = std::max(-85.0f, std::min(85.0f, cameraVerticalAngle));
         if (cameraHorizontalAngle > 360)
         {
@@ -390,7 +396,7 @@ int main(int argc, char* argv[])
         else if (cameraHorizontalAngle < -360)
         {
             cameraHorizontalAngle += 360;
-        }
+        }*/
 
         float theta = radians(cameraHorizontalAngle);
         float phi = radians(cameraVerticalAngle);
