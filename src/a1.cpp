@@ -93,6 +93,9 @@ int main(int argc, char* argv[])
     double lastMousePosX, lastMousePosY;
     glfwGetCursorPos(window, &lastMousePosX, &lastMousePosY);
 
+    double keyX{ 0.0 }, keyY{ 0.0 };
+    double lastKeyX{ 0.0 }, lastKeyY{ 0.0 };
+
     // Other OpenGL states to set once before the Game Loop
     // Enable Backface culling
     glEnable(GL_CULL_FACE);
@@ -303,7 +306,7 @@ int main(int argc, char* argv[])
         // @TODO 4 - Calculate mouse motion dx and dy
         //         - Update camera horizontal and vertical angle
 
-        double mousePosX, mousePosY;
+       /* double mousePosX, mousePosY;
         glfwGetCursorPos(window, &mousePosX, &mousePosY);
 
         double dx = mousePosX - lastMousePosX;
@@ -335,7 +338,67 @@ int main(int argc, char* argv[])
         vec3 cameraSideVector = glm::cross(cameraLookAt, vec3(0.0f, 1.0f, 0.0f));
 
         glm::normalize(cameraSideVector);
+        */
+        //////////////////////////////////////////////////////////////////////////////////////////////
 
+        double dxKey = keyX - lastKeyX;
+        double dyKey = keyY - lastKeyY;
+
+        lastKeyX = keyX;
+        lastKeyY = keyY;
+
+        // Convert to spherical coordinates
+        const float cameraAngularSpeed = 60.0f;
+        cameraHorizontalAngle -= dxKey * cameraAngularSpeed * dt;
+        cameraVerticalAngle -= dyKey * cameraAngularSpeed * dt;
+
+        // Clamp vertical angle to [-85, 85] degrees
+        cameraVerticalAngle = std::max(-85.0f, std::min(85.0f, cameraVerticalAngle));
+        if (cameraHorizontalAngle > 360)
+        {
+            cameraHorizontalAngle -= 360;
+        }
+        else if (cameraHorizontalAngle < -360)
+        {
+            cameraHorizontalAngle += 360;
+        }
+
+        float theta = radians(cameraHorizontalAngle);
+        float phi = radians(cameraVerticalAngle);
+
+        cameraLookAt = vec3(cosf(phi) * cosf(theta), sinf(phi), -cosf(phi) * sinf(theta));
+        vec3 cameraSideVector = glm::cross(cameraLookAt, vec3(0.0f, 1.0f, 0.0f));
+
+        glm::normalize(cameraSideVector);
+
+
+        if (glfwGetKey(window, GLFW_KEY_HOME) == GLFW_PRESS)
+        {
+            keyX = 0.0;
+            keyY = 0.0;
+            cameraHorizontalAngle = 90.0f;
+            cameraVerticalAngle = 0.0f;
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+        {
+            keyX -= 2.5;
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+        {
+            keyX += 2.5;
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+        {
+            keyY -= 2.5;
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+        {
+            keyY += 2.5;
+        }
 
          // @TODO 5 = use camera lookat and side vectors to update positions with ASDW
          // adjust code below
