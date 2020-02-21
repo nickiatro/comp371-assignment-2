@@ -334,7 +334,6 @@ int main(int argc, char* argv[])
                 cameraHorizontalAngle += 360;
             }
 
-            //float theta = radians(cameraHorizontalAngle);
             float phi = radians(cameraVerticalAngle);
 
             cameraLookAt = vec3(cosf(phi), sinf(phi), -cosf(phi));
@@ -361,7 +360,6 @@ int main(int argc, char* argv[])
             }
 
             float theta = radians(cameraHorizontalAngle);
-            //float phi = radians(cameraVerticalAngle);
 
             cameraLookAt = vec3(cosf(theta), 0, sinf(theta));
             vec3 cameraSideVector = glm::cross(cameraLookAt, vec3(0.0f, 1.0f, 0.0f));
