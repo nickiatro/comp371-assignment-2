@@ -19,6 +19,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <algorithm>
+#include <ctime>
 
 
 using namespace glm;
@@ -42,7 +43,6 @@ int main(int argc, char* argv[])
 
     // Black background
     glClearColor(0.0f, 0.5f, 1.0f, 1.0f);
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     // Compile and link shaders here ...
     int shaderProgram = compileAndLinkShaders();
 
@@ -341,7 +341,8 @@ int main(int argc, char* argv[])
          // adjust code below
         if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS && ((glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) || (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS))) // move olaf to the left
         {
-            x -= 0.01;
+            if (x >= -50)
+                x -= 0.01;
         }
         if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS && !((glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) || (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS))) // move camera to the left
         {
@@ -351,6 +352,7 @@ int main(int argc, char* argv[])
 
         if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS && ((glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) || (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS))) // move olaf to the right
         {
+            if (x <= 50)
             x += 0.01;
         }
 
@@ -361,7 +363,8 @@ int main(int argc, char* argv[])
 
         if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && ((glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) || (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS))) // move olaf forwards
         {
-            z -= 0.01;
+            if (z >= -50)
+                z -= 0.01;
         }
 
         if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && !((glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) || (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS))) // move camera up
@@ -371,12 +374,41 @@ int main(int argc, char* argv[])
 
         if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && ((glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) || (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS))) // move olaf backwards
         {
-            z += 0.01;
+            if (z <= 50)
+                z += 0.01;
         }
 
         if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && !((glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) || (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS))) // move camera down
         {
             cameraPosition.y += currentCameraSpeed * dt;
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+        {
+            srand(time(NULL));
+
+            float random = rand() % 51;
+            x = random;
+
+            random = rand() % 51;
+            z = random;
+
+            cout << "("<< x  << " ," << z << ")";
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS)
+        {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
+        {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
+        {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         }
 
         // TODO 6
