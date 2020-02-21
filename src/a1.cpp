@@ -392,8 +392,6 @@ int main(int argc, char* argv[])
 
             random = rand() % 51;
             z = random;
-
-            cout << "("<< x  << " ," << z << ")";
         }
 
         if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS)
