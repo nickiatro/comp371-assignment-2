@@ -99,7 +99,7 @@ int main(int argc, char* argv[])
 
     glEnable(GL_DEPTH_TEST); // @TODO 1
 
-    float x{ 0.0f }, y{ 0.0f }, z{ 0.0f };
+    float x{ 0.0f }, y{ 0.0f }, z{ 0.0f }, s{ 1.0f };
 
     // Entering Game Loop
     while (!glfwWindowShouldClose(window))
@@ -121,85 +121,85 @@ int main(int argc, char* argv[])
         GLuint worldMatrixLocation = glGetUniformLocation(shaderProgram, "worldMatrix");
 
         // Draw left leg
-        mat4 legWorldMatrix = translate(mat4(1.0f), vec3(-1.0f + x, 0.5f + y, 0.0f + z)) * scale(mat4(1.0f), vec3(1.5f, 1.0f, 1.0f));
+        mat4 legWorldMatrix = translate(mat4(1.0f), (vec3(-1.0f + x, 0.5f + y, 0.0f + z)) * s) * scale(mat4(1.0f), (vec3(1.5f, 1.0f, 1.0f) * s));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &legWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw right leg
-        legWorldMatrix = translate(mat4(1.0f), vec3(1.0f + x, 0.5f + y, 0.0f + z)) * scale(mat4(1.0f), vec3(1.5f, 1.0f, 1.0f));
+        legWorldMatrix = translate(mat4(1.0f), (vec3(1.0f + x, 0.5f + y, 0.0f + z)) * s) * scale(mat4(1.0f), (vec3(1.5f, 1.0f, 1.0f) * s));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &legWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw lower body
-        mat4 lowerBodyWorldMatrix = translate(mat4(1.0f), vec3(0.0f + x, 4.0f + y, 0.0f + z)) * scale(mat4(1.0f), vec3(6.0f, 6.0f, 1.0f));
+        mat4 lowerBodyWorldMatrix = translate(mat4(1.0f), (vec3(0.0f + x, 4.0f + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(6.0f, 6.0f, 1.0f)* s));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &lowerBodyWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw upper body
-        mat4 upperBodyWorldMatrix = translate(mat4(1.0f), vec3(0.0f + x, 7.87f + y, 0.0f + z)) * scale(mat4(1.0f), vec3(4.0f, 1.75f, 1.0f));
+        mat4 upperBodyWorldMatrix = translate(mat4(1.0f), (vec3(0.0f + x, 7.87f + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(4.0f, 1.75f, 1.0f) * s));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &upperBodyWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw head
-        mat4 headWorldMatrix = translate(mat4(1.0f), vec3(0.0f + x, 9.62f + y, 0.0f + z)) * scale(mat4(1.0f), vec3(3.0f, 1.75f, 1.0f));
+        mat4 headWorldMatrix = translate(mat4(1.0f), (vec3(0.0f + x, 9.62f + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(3.0f, 1.75f, 1.0f) * s));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &headWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw left eye
-        mat4 eyeWorldMatrix = translate(mat4(1.0f), vec3(-0.7f + x, 9.85f + y, 1.0f + z)) * scale(mat4(1.0f), vec3(0.35f, 0.35f, 1.0f));
+        mat4 eyeWorldMatrix = translate(mat4(1.0f), (vec3(-0.7f + x, 9.85f + y, 1.0f + z) * s)) * scale(mat4(1.0f), (vec3(0.35f, 0.35f, 1.0f) * s));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &eyeWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw right eye
-        eyeWorldMatrix = translate(mat4(1.0f), vec3(0.7f + x, 9.85f + y, 1.0f + z)) * scale(mat4(1.0f), vec3(0.35f, 0.35f, 1.0f));
+        eyeWorldMatrix = translate(mat4(1.0f), (vec3(0.7f + x, 9.85f + y, 1.0f + z) * s)) * scale(mat4(1.0f), (vec3(0.35f, 0.35f, 1.0f) * s));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &eyeWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw nose
-        mat4 noseWorldMatrix = translate(mat4(1.0f), vec3(0.0f + x, 9.65f + y, 1.0f + z)) * scale(mat4(1.0f), vec3(0.35f, 0.35f, 2.0f));
+        mat4 noseWorldMatrix = translate(mat4(1.0f), (vec3(0.0f + x, 9.65f + y, 1.0f + z) * s)) * scale(mat4(1.0f), (vec3(0.35f, 0.35f, 2.0f) * s));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &noseWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 0.5f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw hair
-        mat4 hairWorldMatrix = translate(mat4(1.0f), vec3(0.0f + x, 11.25f + y, 0.0f + z)) * scale(mat4(1.0f), vec3(0.1f, 3.0f, 0.9f));
+        mat4 hairWorldMatrix = translate(mat4(1.0f), (vec3(0.0f + x, 11.25f + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(0.1f, 3.0f, 0.9f) * s));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &hairWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw hair
-        hairWorldMatrix = translate(mat4(1.0f), vec3(-0.4f + x, 11.25f + y, 0.0f + z)) * scale(mat4(1.0f), vec3(0.1f, 3.0f, 0.9f));
+        hairWorldMatrix = translate(mat4(1.0f), (vec3(-0.4f + x, 11.25f + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(0.1f, 3.0f, 0.9f) * s));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &hairWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw hair
-        hairWorldMatrix = translate(mat4(1.0f), vec3(0.4f + x, 11.25f + y, 0.0f + z)) * scale(mat4(1.0f), vec3(0.1f, 3.0f, 0.9f));
+        hairWorldMatrix = translate(mat4(1.0f), (vec3(0.4f + x, 11.25f + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(0.1f, 3.0f, 0.9f) * s));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &hairWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw mouth
-        mat4 mouthWorldMatrix = translate(mat4(1.0f), vec3(0.0f + x, 9.2f + y, 0.7f + z)) * scale(mat4(1.0f), vec3(0.35f, 0.35f, 0.0f));
+        mat4 mouthWorldMatrix = translate(mat4(1.0f), (vec3(0.0f + x, 9.2f + y, 0.7f + z) * s)) * scale(mat4(1.0f), (vec3(0.35f, 0.35f, 0.0f) * s));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &mouthWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw left arm
-        mat4 armWorldMatrix = translate(mat4(1.0f), vec3(-4.0f + x, 7.87f + y, 0.0f + z)) * scale(mat4(1.0f), vec3(6.0f, 0.4f, 1.0f));
+        mat4 armWorldMatrix = translate(mat4(1.0f), (vec3(-4.0f + x, 7.87f + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(6.0f, 0.4f, 1.0f) * s));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &armWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw right arm
-        armWorldMatrix = translate(mat4(1.0f), vec3(4.0f + x, 7.87f + y, 0.0f + z)) * scale(mat4(1.0f), vec3(6.0f, 0.4f, 1.0f));
+        armWorldMatrix = translate(mat4(1.0f), (vec3(4.0f + x, 7.87f + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(6.0f, 0.4f, 1.0f) * s));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &armWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -409,6 +409,17 @@ int main(int argc, char* argv[])
         if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
         {
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS)
+        {
+            s += 0.001;
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS)
+        {
+            if (s > 0)
+                s -= 0.001;
         }
 
         // TODO 6
