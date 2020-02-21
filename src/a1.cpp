@@ -163,7 +163,7 @@ int main(int argc, char* argv[])
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw nose
-        mat4 noseWorldMatrix = translate(mat4(1.0f), vec3(0.0f + x, 9.65f + y, 2.0f + z)) * scale(mat4(1.0f), vec3(0.35f, 0.35f, 2.0f));
+        mat4 noseWorldMatrix = translate(mat4(1.0f), vec3(0.0f + x, 9.65f + y, 1.0f + z)) * scale(mat4(1.0f), vec3(0.35f, 0.35f, 2.0f));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &noseWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 0.5f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
