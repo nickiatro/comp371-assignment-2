@@ -103,7 +103,7 @@ int main(int argc, char* argv[])
 
     glEnable(GL_DEPTH_TEST); // @TODO 1
 
-    float x{ 0.0f }, y{ 0.0f }, z{ 0.0f }, s{ 1.0f };
+    float x{ 0.0f }, y{ 0.0f }, z{ 0.0f }, s{ 1.0f }, r{ 0.0f };
 
     // Entering Game Loop
     while (!glfwWindowShouldClose(window))
@@ -125,85 +125,85 @@ int main(int argc, char* argv[])
         GLuint worldMatrixLocation = glGetUniformLocation(shaderProgram, "worldMatrix");
 
         // Draw left leg
-        mat4 legWorldMatrix = translate(mat4(1.0f), (vec3(-1.0f + x, 0.5f + y, 0.0f + z)) * s) * scale(mat4(1.0f), (vec3(1.5f, 1.0f, 1.0f) * s));
+        mat4 legWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(-1.0f + x, 0.5f + y, 0.0f + z)) * s) * scale(mat4(1.0f), (vec3(1.5f, 1.0f, 1.0f) * s)) ;
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &legWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw right leg
-        legWorldMatrix = translate(mat4(1.0f), (vec3(1.0f + x, 0.5f + y, 0.0f + z)) * s) * scale(mat4(1.0f), (vec3(1.5f, 1.0f, 1.0f) * s));
+        legWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(1.0f + x, 0.5f + y, 0.0f + z)) * s) * scale(mat4(1.0f), (vec3(1.5f, 1.0f, 1.0f) * s));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &legWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw lower body
-        mat4 lowerBodyWorldMatrix = translate(mat4(1.0f), (vec3(0.0f + x, 4.0f + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(6.0f, 6.0f, 1.0f)* s));
+        mat4 lowerBodyWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(0.0f + x, 4.0f + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(6.0f, 6.0f, 1.0f)* s));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &lowerBodyWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw upper body
-        mat4 upperBodyWorldMatrix = translate(mat4(1.0f), (vec3(0.0f + x, 7.87f + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(4.0f, 1.75f, 1.0f) * s));
+        mat4 upperBodyWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(0.0f + x, 7.87f + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(4.0f, 1.75f, 1.0f) * s));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &upperBodyWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw head
-        mat4 headWorldMatrix = translate(mat4(1.0f), (vec3(0.0f + x, 9.62f + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(3.0f, 1.75f, 1.0f) * s));
+        mat4 headWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(0.0f + x, 9.62f + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(3.0f, 1.75f, 1.0f) * s));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &headWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw left eye
-        mat4 eyeWorldMatrix = translate(mat4(1.0f), (vec3(-0.7f + x, 9.85f + y, 1.0f + z) * s)) * scale(mat4(1.0f), (vec3(0.35f, 0.35f, 1.0f) * s));
+        mat4 eyeWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(-0.7f + x, 9.85f + y, 1.0f + z) * s)) * scale(mat4(1.0f), (vec3(0.35f, 0.35f, 1.0f) * s));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &eyeWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw right eye
-        eyeWorldMatrix = translate(mat4(1.0f), (vec3(0.7f + x, 9.85f + y, 1.0f + z) * s)) * scale(mat4(1.0f), (vec3(0.35f, 0.35f, 1.0f) * s));
+        eyeWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(0.7f + x, 9.85f + y, 1.0f + z) * s)) * scale(mat4(1.0f), (vec3(0.35f, 0.35f, 1.0f) * s));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &eyeWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw nose
-        mat4 noseWorldMatrix = translate(mat4(1.0f), (vec3(0.0f + x, 9.65f + y, 1.0f + z) * s)) * scale(mat4(1.0f), (vec3(0.35f, 0.35f, 2.0f) * s));
+        mat4 noseWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(0.0f + x, 9.65f + y, 1.0f + z) * s)) * scale(mat4(1.0f), (vec3(0.35f, 0.35f, 2.0f) * s));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &noseWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 0.5f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw hair
-        mat4 hairWorldMatrix = translate(mat4(1.0f), (vec3(0.0f + x, 11.25f + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(0.1f, 3.0f, 0.9f) * s));
+        mat4 hairWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(0.0f + x, 11.25f + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(0.1f, 3.0f, 0.9f) * s));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &hairWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw hair
-        hairWorldMatrix = translate(mat4(1.0f), (vec3(-0.4f + x, 11.25f + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(0.1f, 3.0f, 0.9f) * s));
+        hairWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(-0.4f + x, 11.25f + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(0.1f, 3.0f, 0.9f) * s));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &hairWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw hair
-        hairWorldMatrix = translate(mat4(1.0f), (vec3(0.4f + x, 11.25f + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(0.1f, 3.0f, 0.9f) * s));
+        hairWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(0.4f + x, 11.25f + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(0.1f, 3.0f, 0.9f) * s));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &hairWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw mouth
-        mat4 mouthWorldMatrix = translate(mat4(1.0f), (vec3(0.0f + x, 9.2f + y, 0.7f + z) * s)) * scale(mat4(1.0f), (vec3(0.35f, 0.35f, 0.0f) * s));
+        mat4 mouthWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(0.0f + x, 9.2f + y, 0.7f + z) * s)) * scale(mat4(1.0f), (vec3(0.35f, 0.35f, 0.0f) * s));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &mouthWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw left arm
-        mat4 armWorldMatrix = translate(mat4(1.0f), (vec3(-4.0f + x, 7.87f + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(6.0f, 0.4f, 1.0f) * s));
+        mat4 armWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(-4.0f + x, 7.87f + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(6.0f, 0.4f, 1.0f) * s));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &armWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw right arm
-        armWorldMatrix = translate(mat4(1.0f), (vec3(4.0f + x, 7.87f + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(6.0f, 0.4f, 1.0f) * s));
+        armWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(4.0f + x, 7.87f + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(6.0f, 0.4f, 1.0f) * s));
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &armWorldMatrix[0][0]);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -243,40 +243,7 @@ int main(int argc, char* argv[])
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
 
-        /*for (int i = 0; i < 20; ++i)
-        {
-            for (int j = 0; j < 20; ++j)
-            {
-                pillarWorldMatrix = translate(mat4(1.0f), vec3(-100.0f + i * 10.0f, 5.0f, -100.0f + j * 10.0f)) * scale(mat4(1.0f), vec3(1.0f, 10.0f, 1.0f));
-                glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &pillarWorldMatrix[0][0]);
-                glDrawArrays(GL_TRIANGLES, 0, 36);
-
-                pillarWorldMatrix = translate(mat4(1.0f), vec3(-100.0f + i * 10.0f, 0.55f, -100.0f + j * 10.0f)) * rotate(mat4(1.0f), radians(180.0f), vec3(0.0f, 1.0f, 0.0f)) * scale(mat4(1.0f), vec3(1.1f, 1.1f, 1.1f));
-                glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &pillarWorldMatrix[0][0]);
-                glDrawArrays(GL_TRIANGLES, 0, 36);
-            }
-        }*/
-   
-        // @TODO 3 - Update and draw projectiles
-        // ...
-
-
-        // Spinning cube at camera position
-        spinningCubeAngle += 180.0f * dt;
-
-        // @TODO 7 - Draw in view space for first person camera
-
-        {
-            // In third person view, let's draw the spinning cube in world space, like any other models
-            mat4 spinningCubeWorldMatrix = translate(mat4(1.0f), cameraPosition) *
-                rotate(mat4(1.0f), radians(spinningCubeAngle), vec3(0.0f, 1.0f, 0.0f)) *
-                scale(mat4(1.0f), vec3(0.1f, 0.1f, 0.1f));
-
-            glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &spinningCubeWorldMatrix[0][0]);
-        }
-        //glDrawArrays(GL_TRIANGLES, 0, 36);
-
-
+       
         glBindVertexArray(0);
 
         // End Frame
@@ -296,16 +263,6 @@ int main(int argc, char* argv[])
         {
             cameraFirstPerson = false;
         }
-
-
-        // This was solution for Lab02 - Moving camera exercise
-        // We'll change this to be a first or third person camera
-        bool fastCam = glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS;
-        float currentCameraSpeed = (fastCam) ? cameraFastSpeed : cameraSpeed;
-
-
-        // @TODO 4 - Calculate mouse motion dx and dy
-        //         - Update camera horizontal and vertical angle
 
        double mousePosX, mousePosY;
         glfwGetCursorPos(window, &mousePosX, &mousePosY);
@@ -372,9 +329,6 @@ int main(int argc, char* argv[])
 
             glm::normalize(cameraSideVector);
         }
-        
-
-        //////////////////////////////////////////////////////////////////////////////////////////////
 
         double dxKey = keyX - lastKeyX;
         double dyKey = keyY - lastKeyY;
@@ -386,17 +340,6 @@ int main(int argc, char* argv[])
         const float cameraAngularSpeed = 60.0f;
         cameraHorizontalAngle -= dxKey * cameraAngularSpeed * dt;
         cameraVerticalAngle -= dyKey * cameraAngularSpeed * dt;
-
-       /* // Clamp vertical angle to [-85, 85] degrees
-        cameraVerticalAngle = std::max(-85.0f, std::min(85.0f, cameraVerticalAngle));
-        if (cameraHorizontalAngle > 360)
-        {
-            cameraHorizontalAngle -= 360;
-        }
-        else if (cameraHorizontalAngle < -360)
-        {
-            cameraHorizontalAngle += 360;
-        }*/
 
         float theta = radians(cameraHorizontalAngle);
         float phi = radians(cameraVerticalAngle);
@@ -435,8 +378,6 @@ int main(int argc, char* argv[])
             keyY += 2.5;
         }
 
-         // @TODO 5 = use camera lookat and side vectors to update positions with ASDW
-         // adjust code below
         if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS && ((glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) || (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS))) // move olaf to the left
         {
             if (x >= -50)
@@ -444,7 +385,7 @@ int main(int argc, char* argv[])
         }
         if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS && !((glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) || (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS))) // move camera to the left
         {
-
+           r += 0.01;
             
         }
 
@@ -456,7 +397,8 @@ int main(int argc, char* argv[])
 
         if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS && !((glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) || (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS))) // move camera to the right
         {
-           
+           r -= 0.01;
+           cout << r << " ";
         }
 
         if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && ((glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) || (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS))) // move olaf forwards
@@ -465,20 +407,10 @@ int main(int argc, char* argv[])
                 z -= 0.01;
         }
 
-        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && !((glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) || (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS))) // move camera up
-        {
-           
-        }
-
         if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && ((glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) || (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS))) // move olaf backwards
         {
             if (z <= 50)
                 z += 0.01;
-        }
-
-        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && !((glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) || (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS))) // move camera down
-        {
-            
         }
 
         if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
@@ -518,23 +450,11 @@ int main(int argc, char* argv[])
                 s -= 0.001;
         }
 
-        // TODO 6
-        // Set the view matrix for first and third person cameras
-        // - In first person, camera lookat is set like below
-        // - In third person, camera position is on a sphere looking towards center
+       
         mat4 viewMatrix = lookAt(cameraPosition, cameraPosition + cameraLookAt, cameraUp);
 
         GLuint viewMatrixLocation = glGetUniformLocation(shaderProgram, "viewMatrix");
         glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
-
-
-        // @TODO 2 - Shoot Projectiles
-        //
-        // shoot projectiles on mouse left click
-        // To detect onPress events, we need to check the last state and the current state to detect the state change
-        // Otherwise, you would shoot many projectiles on each mouse press
-        // ...
-
 
     }
 
