@@ -62,10 +62,7 @@ int main(int argc, char* argv[])
     float cameraHorizontalAngle = 90.0f;
     float cameraVerticalAngle = 0.0f;
     float cameraZoom = 0.0f;
-    bool  cameraFirstPerson = true; // press 1 or 2 to toggle this variable
 
-    // Spinning cube at camera position
-    float spinningCubeAngle = 0.0f;
 
     // Set projection matrix for shader, this won't change
     mat4 projectionMatrix = glm::perspective(70.0f,            // field of view in degrees
@@ -253,16 +250,6 @@ int main(int argc, char* argv[])
         // Handle inputs
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
             glfwSetWindowShouldClose(window, true);
-
-        if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) // move camera down
-        {
-            cameraFirstPerson = true;
-        }
-
-        if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) // move camera down
-        {
-            cameraFirstPerson = false;
-        }
 
        double mousePosX, mousePosY;
         glfwGetCursorPos(window, &mousePosX, &mousePosY);
