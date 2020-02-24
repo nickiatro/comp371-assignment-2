@@ -454,7 +454,6 @@ int main(int argc, char* argv[])
 
 const char* getVertexShaderSource()
 {
-    // For now, you use a string for your shader code, in the assignment, shaders will be stored in .glsl files
     return
         "#version 330 core\n"
         "layout (location = 0) in vec3 aPos;"
