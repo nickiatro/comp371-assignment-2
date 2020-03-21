@@ -63,9 +63,8 @@ int main(int argc, char* argv[])
     float cameraVerticalAngle = 0.0f;
     float cameraZoom = 0.0f;
 
-
     // Set projection matrix for shader, this won't change
-    mat4 projectionMatrix = glm::perspective(70.0f,            // field of view in degrees
+    mat4 projectionMatrix = glm::perspective(70.0f + cameraZoom,            // field of view in degrees
         1024.0f / 768.0f,  // aspect ratio
         0.01f, 100.0f);   // near and far (near > 0)
 
@@ -263,9 +262,8 @@ int main(int argc, char* argv[])
        
         if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
         {
-            const float cameraAngularSpeed = 60.0f;
+            const float cameraAngularSpeed = 0.5f;
             cameraZoom -= dy * cameraAngularSpeed * dt;
-            cameraPosition = vec3(-5.0f, 9.5f, 20.0f + cameraZoom);
         }
         if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_PRESS)
         {
@@ -441,6 +439,13 @@ int main(int argc, char* argv[])
 
         GLuint viewMatrixLocation = glGetUniformLocation(shaderProgram, "viewMatrix");
         glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
+
+        mat4 projectionMatrix = glm::perspective(70.0f + cameraZoom,            // field of view in degrees
+            1024.0f / 768.0f,  // aspect ratio
+            0.01f, 100.0f);   // near and far (near > 0)
+
+        GLuint projectionMatrixLocation = glGetUniformLocation(shaderProgram, "projectionMatrix");
+        glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
 
     }
 
