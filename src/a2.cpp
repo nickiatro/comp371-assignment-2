@@ -3,6 +3,8 @@
 //
 // Created by Nicolas Bergeron on 20/06/2019.
 //
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 
 #include <iostream>
 #include <list>
@@ -31,15 +33,108 @@ struct Vertex
 using namespace glm;
 using namespace std;
 
+struct TexturedColoredVertex
+{
+    TexturedColoredVertex(vec3 _position, vec3 _color, vec2 _uv)
+        : position(_position), color(_color), uv(_uv) {}
+
+    vec3 position;
+    vec3 color;
+    vec2 uv;
+};
+
+// Textured Cube model
+const TexturedColoredVertex texturedCubeVertexArray[] = {  // position,                            color
+    TexturedColoredVertex(vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f)), //left - red
+    TexturedColoredVertex(vec3(-0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f)),
+    TexturedColoredVertex(vec3(-0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f)),
+
+    TexturedColoredVertex(vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f)),
+    TexturedColoredVertex(vec3(-0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f)),
+    TexturedColoredVertex(vec3(-0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f)),
+
+    TexturedColoredVertex(vec3(0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f)), // far - blue
+    TexturedColoredVertex(vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f)),
+    TexturedColoredVertex(vec3(-0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f)),
+
+    TexturedColoredVertex(vec3(0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f)),
+    TexturedColoredVertex(vec3(0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f)),
+    TexturedColoredVertex(vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f)),
+
+    TexturedColoredVertex(vec3(0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f)), // bottom - turquoise
+    TexturedColoredVertex(vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f)),
+    TexturedColoredVertex(vec3(0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f)),
+
+    TexturedColoredVertex(vec3(0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f)),
+    TexturedColoredVertex(vec3(-0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f)),
+    TexturedColoredVertex(vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f)),
+
+    TexturedColoredVertex(vec3(-0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f)), // near - green
+    TexturedColoredVertex(vec3(-0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f)),
+    TexturedColoredVertex(vec3(0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f)),
+
+    TexturedColoredVertex(vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f)),
+    TexturedColoredVertex(vec3(-0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f)),
+    TexturedColoredVertex(vec3(0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f)),
+
+    TexturedColoredVertex(vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f)), // right - purple
+    TexturedColoredVertex(vec3(0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f)),
+    TexturedColoredVertex(vec3(0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f)),
+
+    TexturedColoredVertex(vec3(0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f)),
+    TexturedColoredVertex(vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f)),
+    TexturedColoredVertex(vec3(0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f)),
+
+    TexturedColoredVertex(vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f)), // top - yellow
+    TexturedColoredVertex(vec3(0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f)),
+    TexturedColoredVertex(vec3(-0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f)),
+
+    TexturedColoredVertex(vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f)),
+    TexturedColoredVertex(vec3(-0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f)),
+    TexturedColoredVertex(vec3(-0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f))
+};
+
+
+GLuint loadTexture(const char* filename);
+
 const char* getVertexShaderSource();
 
 const char* getFragmentShaderSource();
 
-int compileAndLinkShaders();
+const char* getTexturedVertexShaderSource();
+
+const char* getTexturedFragmentShaderSource();
+
+int compileAndLinkShaders(const char* vertexShaderSource, const char* fragmentShaderSource);
 
 int createVertexArrayObject();
 
 int createVertexArrayObjectforSpheres();
+
+int createTexturedCubeVertexArrayObject();
+
+
+void setProjectionMatrix(int shaderProgram, mat4 projectionMatrix)
+{
+    glUseProgram(shaderProgram);
+    GLuint projectionMatrixLocation = glGetUniformLocation(shaderProgram, "projectionMatrix");
+    glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
+}
+
+void setViewMatrix(int shaderProgram, mat4 viewMatrix)
+{
+    glUseProgram(shaderProgram);
+    GLuint viewMatrixLocation = glGetUniformLocation(shaderProgram, "viewMatrix");
+    glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
+}
+
+void setWorldMatrix(int shaderProgram, mat4 worldMatrix)
+{
+    glUseProgram(shaderProgram);
+    GLuint worldMatrixLocation = glGetUniformLocation(shaderProgram, "worldMatrix");
+    glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
+}
+
 
 bool initContext();
 
@@ -49,15 +144,24 @@ int main(int argc, char* argv[])
 {
     if (!initContext()) return -1;
 
+    GLuint snowTextureID = loadTexture("../Assets/Textures/snow.jpg");
+    GLuint carrotTextureID = loadTexture("../Assets/Textures/carrot.jpg");
+    GLuint metalTextureID = loadTexture("../Assets/Textures/metal.jpg");
+
+    bool texture = true;
+
     // Black background
     glClearColor(0.0f, 0.5f, 1.0f, 1.0f);
     // Compile and link shaders here ...
-    int shaderProgram = compileAndLinkShaders();
+    int shaderProgram = compileAndLinkShaders(getVertexShaderSource(), getFragmentShaderSource());
+    int texturedShaderProgram = compileAndLinkShaders(getTexturedVertexShaderSource(), getTexturedFragmentShaderSource());
+
 
     // We can set the shader once, since we have only one
     glUseProgram(shaderProgram);
 
     GLuint colourLocation = glGetUniformLocation(shaderProgram, "objectColour");
+    GLuint texturedColourLocation = glGetUniformLocation(texturedShaderProgram, "objectColour");
 
     // Camera parameters for view transform
     vec3 cameraPosition(-5.0f, 9.5f, 20.0f);
@@ -76,22 +180,21 @@ int main(int argc, char* argv[])
         1024.0f / 768.0f,  // aspect ratio
         0.01f, 100.0f);   // near and far (near > 0)
 
-    GLuint projectionMatrixLocation = glGetUniformLocation(shaderProgram, "projectionMatrix");
-    glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
-
     // Set initial view matrix
     mat4 viewMatrix = lookAt(cameraPosition,  // eye
         cameraPosition + cameraLookAt,  // center
         cameraUp); // up
 
-    GLuint viewMatrixLocation = glGetUniformLocation(shaderProgram, "viewMatrix");
-    glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
+    setViewMatrix(shaderProgram, viewMatrix);
+    setViewMatrix(texturedShaderProgram, viewMatrix);
 
-
+    setProjectionMatrix(shaderProgram, projectionMatrix);
+    setProjectionMatrix(texturedShaderProgram, projectionMatrix);
 
     // Define and upload geometry to the GPU here ...
     int vao = createVertexArrayObject();
     int vaoSphere = createVertexArrayObjectforSpheres();
+    int texturedCubeVAO = createTexturedCubeVertexArrayObject();
 
     // For frame time
     float lastFrameTime = glfwGetTime();
@@ -127,17 +230,17 @@ int main(int argc, char* argv[])
         glBindVertexArray(vao);
         //glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
-        GLuint worldMatrixLocation = glGetUniformLocation(shaderProgram, "worldMatrix");
+        glUseProgram(shaderProgram);
 
         // Draw left leg
         mat4 legWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(-1.0f + x, 0.5f + y, 0.0f + z)) * s) * scale(mat4(1.0f), (vec3(1.5f, 1.0f, 1.0f) * s)) ;
-        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &legWorldMatrix[0][0]);
+        setWorldMatrix(shaderProgram, legWorldMatrix);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw right leg
         legWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(1.0f + x, 0.5f + y, 0.0f + z)) * s) * scale(mat4(1.0f), (vec3(1.5f, 1.0f, 1.0f) * s));
-        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &legWorldMatrix[0][0]);
+        setWorldMatrix(shaderProgram, legWorldMatrix);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
@@ -145,19 +248,19 @@ int main(int argc, char* argv[])
 
         //Draw lower body
         mat4 lowerBodyWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(0.0f + x, 3.5f + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(3.0f, 3.0f, 3.0f)* s));
-        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &lowerBodyWorldMatrix[0][0]);
+        setWorldMatrix(shaderProgram, lowerBodyWorldMatrix);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 1261);
 
         //Draw upper body
         mat4 upperBodyWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(0.0f + x, 6.5 + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(2.5f, 2.5f, 2.5f) * s));
-        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &upperBodyWorldMatrix[0][0]);
+        setWorldMatrix(shaderProgram, upperBodyWorldMatrix);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 1261);  
 
         //Draw head
         mat4 headWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(0.0f + x, 9.5f + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(2.0f, 2.0f, 2.0f) * s));
-        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &headWorldMatrix[0][0]);
+        setWorldMatrix(shaderProgram, headWorldMatrix);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 1261);
 
@@ -165,82 +268,122 @@ int main(int argc, char* argv[])
 
         //Draw left eye
         mat4 eyeWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(-0.7f + x, 9.85f + y, 1.0f + z) * s)) * scale(mat4(1.0f), (vec3(0.35f, 0.35f, 1.0f) * s));
-        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &eyeWorldMatrix[0][0]);
+        setWorldMatrix(shaderProgram, eyeWorldMatrix);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw right eye
         eyeWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(0.7f + x, 9.85f + y, 1.0f + z) * s)) * scale(mat4(1.0f), (vec3(0.35f, 0.35f, 1.0f) * s));
-        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &eyeWorldMatrix[0][0]);
-        glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
-        glDrawArrays(GL_TRIANGLES, 0, 36);
-
-        //Draw nose
-        mat4 noseWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(0.0f + x, 9.65f + y, 1.0f + z) * s)) * scale(mat4(1.0f), (vec3(0.35f, 0.35f, 2.0f) * s));
-        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &noseWorldMatrix[0][0]);
-        glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 0.5f, 0.0f)));
-        glDrawArrays(GL_TRIANGLES, 0, 36);
-
-        //Draw hair
-        mat4 hairWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(0.0f + x, 12.75f + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(0.1f, 3.0f, 0.9f) * s));
-        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &hairWorldMatrix[0][0]);
-        glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
-        glDrawArrays(GL_TRIANGLES, 0, 36);
-
-        //Draw hair
-        hairWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(-0.4f + x, 12.75f + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(0.1f, 3.0f, 0.9f) * s));
-        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &hairWorldMatrix[0][0]);
-        glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
-        glDrawArrays(GL_TRIANGLES, 0, 36);
-
-        //Draw hair
-        hairWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(0.4f + x, 12.75f + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(0.1f, 3.0f, 0.9f) * s));
-        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &hairWorldMatrix[0][0]);
+        setWorldMatrix(shaderProgram, eyeWorldMatrix);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw mouth
         mat4 mouthWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(0.0f + x, 9.2f + y, 0.7f + z) * s)) * scale(mat4(1.0f), (vec3(0.35f, 0.35f, 0.0f) * s));
-        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &mouthWorldMatrix[0][0]);
+        setWorldMatrix(shaderProgram, mouthWorldMatrix);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw left arm
         mat4 armWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(-4.0f + x, 7.87f + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(6.0f, 0.4f, 1.0f) * s));
-        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &armWorldMatrix[0][0]);
+        setWorldMatrix(shaderProgram, armWorldMatrix);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw right arm
         armWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(4.0f + x, 7.87f + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(6.0f, 0.4f, 1.0f) * s));
-        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &armWorldMatrix[0][0]);
+        setWorldMatrix(shaderProgram, armWorldMatrix);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw x-axis
         mat4 axisWorldMatrix = translate(mat4(1.0f), vec3(2.5f, 0.0f, 0.0f)) * scale(mat4(1.0f), vec3(5.0f, 0.1f, 0.1f));
-        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &axisWorldMatrix[0][0]);
+        setWorldMatrix(shaderProgram, axisWorldMatrix);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 0.0f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw y-axis
         axisWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 2.5f, 0.0f)) * scale(mat4(1.0f), vec3(0.1f, 5.0f, 0.1f));
-        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &axisWorldMatrix[0][0]);
+        setWorldMatrix(shaderProgram, axisWorldMatrix);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 1.0f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw z-axis
         axisWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 0.0f, 2.5f)) * scale(mat4(1.0f), vec3(0.1f, 0.1f, 5.0f));
-        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &axisWorldMatrix[0][0]);
+        setWorldMatrix(shaderProgram, axisWorldMatrix);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 1.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
-        //Draw floor
-            mat4 floorWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 0.0f, 0.0f)) * scale(mat4(1.0f), vec3(100.0f, 0.0f, 100.0f));
-            glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &floorWorldMatrix[0][0]);
-            glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
-            glDrawArrays(GL_TRIANGLES, 0, 36);
+        glBindVertexArray(texturedCubeVAO);
 
+        glUseProgram(texturedShaderProgram);
+
+        glActiveTexture(GL_TEXTURE0);
+        GLuint textureLocation = glGetUniformLocation(texturedShaderProgram, "textureSampler");
+
+        if (texture == true) {
+            glBindTexture(GL_TEXTURE_2D, snowTextureID);
+            //Draw floor
+            mat4 floorWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 0.0f, 0.0f)) * scale(mat4(1.0f), vec3(100.0f, 0.0f, 100.0f));
+            setWorldMatrix(texturedShaderProgram, floorWorldMatrix);
+            glUniform3fv(texturedColourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
+        else {
+            glUseProgram(shaderProgram);
+            //Draw floor
+            mat4 floorWorldMatrix = translate(mat4(1.0f), vec3(0.0f, 0.0f, 0.0f)) * scale(mat4(1.0f), vec3(100.0f, 0.0f, 100.0f));
+            setWorldMatrix(shaderProgram, floorWorldMatrix);
+            glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.96f, 0.96f, 0.96f)));
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
+
+        glUseProgram(texturedShaderProgram);
+
+        glUniform1i(textureLocation, 0);
+
+
+        if (texture == true) {
+            glBindTexture(GL_TEXTURE_2D, carrotTextureID);
+            //Draw nose
+            mat4 noseWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(0.0f + x, 9.65f + y, 1.0f + z) * s)) * scale(mat4(1.0f), (vec3(0.35f, 0.35f, 2.0f) * s));
+            setWorldMatrix(texturedShaderProgram, noseWorldMatrix);
+            glUniform3fv(texturedColourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 0.5f, 0.0f)));
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
+        else {
+            glUseProgram(shaderProgram);
+            //Draw nose
+            mat4 noseWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(0.0f + x, 9.65f + y, 1.0f + z) * s)) * scale(mat4(1.0f), (vec3(0.35f, 0.35f, 2.0f) * s));
+            setWorldMatrix(shaderProgram, noseWorldMatrix);
+            glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 0.5f, 0.0f)));
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
+
+        glUseProgram(texturedShaderProgram);
+
+        glUniform1i(textureLocation, 0);
+
+        
+
+        if (texture == true) {
+            glBindTexture(GL_TEXTURE_2D, metalTextureID);
+            //Draw hat
+            mat4 hatWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(0.0f + x, 11.75f + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(2.0f, 1.0f, 2.0f) * s));
+            setWorldMatrix(texturedShaderProgram, hatWorldMatrix);
+            glUniform3fv(texturedColourLocation, 1, glm::value_ptr(glm::vec3(0.70f, 0.0f, 0.0f)));
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
+        else {
+            glUseProgram(shaderProgram);
+            //Draw hat
+            mat4 hatWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(0.0f + x, 11.75f + y, 0.0f + z) * s)) * scale(mat4(1.0f), (vec3(2.0f, 1.0f, 2.0f) * s));
+            setWorldMatrix(shaderProgram, hatWorldMatrix);
+            glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.70f, 0.0f, 0.0f)));
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
+
+        glUniform1i(textureLocation, 0);
        
         glBindVertexArray(0);
 
@@ -372,7 +515,7 @@ int main(int argc, char* argv[])
         }
         if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS && !((glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) || (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS))) // move camera to the left
         {
-           r += 0.01;
+           r += 0.001;
             
         }
 
@@ -384,7 +527,7 @@ int main(int argc, char* argv[])
 
         if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS && !((glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) || (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS))) // move camera to the right
         {
-           r -= 0.01;
+           r -= 0.001;
         }
 
         if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && ((glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) || (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS))) // move olaf forwards
@@ -436,19 +579,28 @@ int main(int argc, char* argv[])
                 s -= 0.001;
         }
 
+        if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS)
+        {
+            if (texture == true) {
+                texture = false;
+            }
+            else if (texture == false) {
+                texture = true;
+            }
+        }
+
        
         mat4 viewMatrix = lookAt(cameraPosition, cameraPosition + cameraLookAt, cameraUp);
-
-        GLuint viewMatrixLocation = glGetUniformLocation(shaderProgram, "viewMatrix");
-        glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
 
         mat4 projectionMatrix = glm::perspective(70.0f + cameraZoom,            // field of view in degrees
             1024.0f / 768.0f,  // aspect ratio
             0.01f, 100.0f);   // near and far (near > 0)
 
-        GLuint projectionMatrixLocation = glGetUniformLocation(shaderProgram, "projectionMatrix");
-        glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
+        setViewMatrix(shaderProgram, viewMatrix);
+        setViewMatrix(texturedShaderProgram, viewMatrix);
 
+        setProjectionMatrix(shaderProgram, projectionMatrix);
+        setProjectionMatrix(texturedShaderProgram, projectionMatrix);
     }
 
 
@@ -491,7 +643,48 @@ const char* getFragmentShaderSource()
         "}";
 }
 
-int compileAndLinkShaders()
+const char* getTexturedVertexShaderSource()
+{
+    // For now, you use a string for your shader code, in the assignment, shaders will be stored in .glsl files
+    return
+        "#version 330 core\n"
+        "layout (location = 0) in vec3 aPos;"
+        "layout (location = 1) in vec3 aColor;"
+        "layout (location = 2) in vec2 aUV;"
+        ""
+        "uniform mat4 worldMatrix;"
+        "uniform mat4 viewMatrix = mat4(1.0);"  // default value for view matrix (identity)
+        "uniform mat4 projectionMatrix = mat4(1.0);"
+        ""
+        "out vec3 vertexColor;"
+        "out vec2 vertexUV;"
+        ""
+        "void main()"
+        "{"
+        "   vertexColor = aColor;"
+        "   mat4 modelViewProjection = projectionMatrix * viewMatrix * worldMatrix;"
+        "   gl_Position = modelViewProjection * vec4(aPos.x, aPos.y, aPos.z, 1.0);"
+        "   vertexUV = aUV;"
+        "}";
+}
+
+const char* getTexturedFragmentShaderSource()
+{
+    return
+        "#version 330 core\n"
+        "uniform vec3 objectColour;"
+        "in vec2 vertexUV;"
+        "uniform sampler2D textureSampler;"
+        ""
+        "out vec4 FragColor;"
+        "void main()"
+        "{"
+        "   vec4 textureColor = texture( textureSampler, vertexUV );"
+        "   FragColor = textureColor * vec4(objectColour.r, objectColour.g, objectColour.b, 1.0f);"
+        "}";
+}
+
+int compileAndLinkShaders(const char* vertexShaderSource, const char* fragmentShaderSource)
 {
     // compile and link shader program
     // return shader program id
@@ -499,7 +692,6 @@ int compileAndLinkShaders()
 
     // vertex shader
     int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    const char* vertexShaderSource = getVertexShaderSource();
     glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
     glCompileShader(vertexShader);
 
@@ -515,7 +707,6 @@ int compileAndLinkShaders()
 
     // fragment shader
     int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    const char* fragmentShaderSource = getFragmentShaderSource();
     glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
     glCompileShader(fragmentShader);
 
@@ -545,6 +736,47 @@ int compileAndLinkShaders()
 
     return shaderProgram;
 }
+
+GLuint loadTexture(const char* filename)
+{
+    // Step1 Create and bind textures
+    GLuint textureId = 0;
+    glGenTextures(1, &textureId);
+    assert(textureId != 0);
+
+
+    glBindTexture(GL_TEXTURE_2D, textureId);
+
+    // Step2 Set filter parameters
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    // Step3 Load Textures with dimension data
+    int width, height, nrChannels;
+    unsigned char* data = stbi_load(filename, &width, &height, &nrChannels, 0);
+    if (!data)
+    {
+        std::cerr << "Error::Texture could not load texture file:" << filename << std::endl;
+        return 0;
+    }
+
+    // Step4 Upload the texture to the PU
+    GLenum format = 0;
+    if (nrChannels == 1)
+        format = GL_RED;
+    else if (nrChannels == 3)
+        format = GL_RGB;
+    else if (nrChannels == 4)
+        format = GL_RGBA;
+    glTexImage2D(GL_TEXTURE_2D, 0, format, width, height,
+        0, format, GL_UNSIGNED_BYTE, data);
+
+    // Step5 Free resources
+    stbi_image_free(data);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    return textureId;
+}
+
 
 int createVertexArrayObject()
 {
@@ -633,6 +865,50 @@ int createVertexArrayObject()
 
     glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
     glBindVertexArray(0);
+
+    return vertexArrayObject;
+}
+
+int createTexturedCubeVertexArrayObject()
+{
+    // Create a vertex array
+    GLuint vertexArrayObject;
+    glGenVertexArrays(1, &vertexArrayObject);
+    glBindVertexArray(vertexArrayObject);
+
+    // Upload Vertex Buffer to the GPU, keep a reference to it (vertexBufferObject)
+    GLuint vertexBufferObject;
+    glGenBuffers(1, &vertexBufferObject);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(texturedCubeVertexArray), texturedCubeVertexArray, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0,                   // attribute 0 matches aPos in Vertex Shader
+        3,                   // size
+        GL_FLOAT,            // type
+        GL_FALSE,            // normalized?
+        sizeof(TexturedColoredVertex), // stride - each vertex contain 2 vec3 (position, color)
+        (void*)0             // array buffer offset
+    );
+    glEnableVertexAttribArray(0);
+
+
+    glVertexAttribPointer(1,                            // attribute 1 matches aColor in Vertex Shader
+        3,
+        GL_FLOAT,
+        GL_FALSE,
+        sizeof(TexturedColoredVertex),
+        (void*)sizeof(vec3)      // color is offseted a vec3 (comes after position)
+    );
+    glEnableVertexAttribArray(1);
+
+    glVertexAttribPointer(2,                            // attribute 2 matches aUV in Vertex Shader
+        2,
+        GL_FLOAT,
+        GL_FALSE,
+        sizeof(TexturedColoredVertex),
+        (void*)(2 * sizeof(vec3))      // uv is offseted by 2 vec3 (comes after position and color)
+    );
+    glEnableVertexAttribArray(2);
 
     return vertexArrayObject;
 }
