@@ -267,19 +267,19 @@ int main(int argc, char* argv[])
         glBindVertexArray(vao);
 
         //Draw left eye
-        mat4 eyeWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(-0.7f + x, 9.85f + y, 1.0f + z) * s)) * scale(mat4(1.0f), (vec3(0.35f, 0.35f, 1.0f) * s));
+        mat4 eyeWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(-0.7f + x, 9.85f + y, 2.09f + z) * s)) * scale(mat4(1.0f), (vec3(0.35f, 0.35f, 0.35f) * s));
         setWorldMatrix(shaderProgram, eyeWorldMatrix);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw right eye
-        eyeWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(0.7f + x, 9.85f + y, 1.0f + z) * s)) * scale(mat4(1.0f), (vec3(0.35f, 0.35f, 1.0f) * s));
+        eyeWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(0.7f + x, 9.85f + y, 2.09f + z) * s)) * scale(mat4(1.0f), (vec3(0.35f, 0.35f, 0.35f) * s));
         setWorldMatrix(shaderProgram, eyeWorldMatrix);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Draw mouth
-        mat4 mouthWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(0.0f + x, 9.2f + y, 0.7f + z) * s)) * scale(mat4(1.0f), (vec3(0.35f, 0.35f, 0.0f) * s));
+        mat4 mouthWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(0.0f + x, 9.2f + y, 2.085f + z) * s)) * scale(mat4(1.0f), (vec3(0.35f, 0.35f, 0.0f) * s));
         setWorldMatrix(shaderProgram, mouthWorldMatrix);
         glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
         glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -346,7 +346,7 @@ int main(int argc, char* argv[])
         if (texture == true) {
             glBindTexture(GL_TEXTURE_2D, carrotTextureID);
             //Draw nose
-            mat4 noseWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(0.0f + x, 9.65f + y, 1.0f + z) * s)) * scale(mat4(1.0f), (vec3(0.35f, 0.35f, 2.0f) * s));
+            mat4 noseWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(0.0f + x, 9.65f + y, 3.0f + z) * s)) * scale(mat4(1.0f), (vec3(0.35f, 0.35f, 2.0f) * s));
             setWorldMatrix(texturedShaderProgram, noseWorldMatrix);
             glUniform3fv(texturedColourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 0.5f, 0.0f)));
             glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -354,7 +354,7 @@ int main(int argc, char* argv[])
         else {
             glUseProgram(shaderProgram);
             //Draw nose
-            mat4 noseWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(0.0f + x, 9.65f + y, 1.0f + z) * s)) * scale(mat4(1.0f), (vec3(0.35f, 0.35f, 2.0f) * s));
+            mat4 noseWorldMatrix = glm::rotate(mat4(1.0f), 5.0f * r, vec3(0.0f, 1.0f, 0.0f)) * translate(mat4(1.0f), (vec3(0.0f + x, 9.65f + y, 3.0f + z) * s)) * scale(mat4(1.0f), (vec3(0.35f, 0.35f, 2.0f) * s));
             setWorldMatrix(shaderProgram, noseWorldMatrix);
             glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(1.0f, 0.5f, 0.0f)));
             glDrawArrays(GL_TRIANGLES, 0, 36);
