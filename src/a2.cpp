@@ -161,24 +161,6 @@ int main(int argc, char* argv[])
     // We can set the shader once, since we have only one
     glUseProgram(shaderProgram);
 
-    GLuint colourLocation = glGetUniformLocation(shaderProgram, "objectColour");
-    GLuint lightColour = glGetUniformLocation(shaderProgram, "lightColour");
-    GLuint lightPos = glGetUniformLocation(shaderProgram, "lightPos");
-
-    glUniform3fv(lightColour, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
-    glUniform3fv(lightPos, 1, glm::value_ptr(glm::vec3(0.0f, 30.0f, 0.0f)));
-
-    glUseProgram(texturedShaderProgram);
-
-    GLuint texturedColourLocation = glGetUniformLocation(texturedShaderProgram, "objectColour");
-    GLuint texturedLightColour = glGetUniformLocation(texturedShaderProgram, "lightColour");
-    GLuint texturedLightPos = glGetUniformLocation(texturedShaderProgram, "lightPos");
-
-    glUniform3fv(texturedLightColour, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
-    glUniform3fv(texturedLightPos, 1, glm::value_ptr(glm::vec3(0.0f, 30.0f, 0.0f)));
-
-    glUseProgram(shaderProgram);
-
     // Camera parameters for view transform
     vec3 cameraPosition(-5.0f, 9.5f, 20.0f);
     vec3 cameraLookAt(0.2f, -0.2f, -1.0f);
@@ -245,6 +227,25 @@ int main(int argc, char* argv[])
         // Draw geometry
         glBindVertexArray(vao);
         //glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
+        glUseProgram(shaderProgram);
+
+
+        GLuint colourLocation = glGetUniformLocation(shaderProgram, "objectColour");
+        GLuint lightColour = glGetUniformLocation(shaderProgram, "lightColour");
+        GLuint lightPos = glGetUniformLocation(shaderProgram, "lightPos");
+
+        glUniform3fv(lightColour, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
+        glUniform3fv(lightPos, 1, glm::value_ptr(glm::vec3(0.0f, 30.0f, 0.0f)));
+
+        glUseProgram(texturedShaderProgram);
+
+        GLuint texturedColourLocation = glGetUniformLocation(texturedShaderProgram, "objectColour");
+        GLuint texturedLightColour = glGetUniformLocation(texturedShaderProgram, "lightColour");
+        GLuint texturedLightPos = glGetUniformLocation(texturedShaderProgram, "lightPos");
+
+        glUniform3fv(texturedLightColour, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
+        glUniform3fv(texturedLightPos, 1, glm::value_ptr(glm::vec3(0.0f, 30.0f, 0.0f)));
 
         glUseProgram(shaderProgram);
 
