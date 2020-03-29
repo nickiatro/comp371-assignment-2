@@ -223,9 +223,9 @@ int main(int argc, char* argv[])
 
     // Other OpenGL states to set once before the Game Loop
     // Enable Backface culling
-    glEnable(GL_CULL_FACE);
+    //glEnable(GL_CULL_FACE);
 
-    glEnable(GL_DEPTH_TEST); // @TODO 1
+    glEnable(GL_DEPTH_TEST);
 
     float x{ 0.0f }, y{ 0.0f }, z{ 0.0f }, s{ 1.0f }, r{ 0.0f };
 
@@ -668,13 +668,13 @@ const char* getFragmentShaderSource()
         "out vec4 FragColor;"
         "void main()"
         "{"
-        "   float ambientStrength = 0.9;"
+        "   float ambientStrength = 0.7;"
         "   vec3 ambient = ambientStrength * lightColour;"
         "   vec3 norm = normalize(Normal);"
         "   vec3 lightDir = normalize(LightPos - FragPos);"
         "   float diff = max(dot(norm, lightDir), 0.0);"
         "   vec3 diffuse = diff * lightColour;"
-        "   float specularStrength = 0.5;"
+        "   float specularStrength = 0.9;"
         "   vec3 viewDir = normalize(-FragPos);"
         "   vec3 reflectDir = reflect(-lightDir, norm);"
         "   float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);"
@@ -734,13 +734,13 @@ const char* getTexturedFragmentShaderSource()
         "void main()"
         "{"
         "   vec4 textureColor = texture( textureSampler, vertexUV );"
-        "   float ambientStrength = 0.9;"
+        "   float ambientStrength = 0.7;"
         "   vec3 ambient = ambientStrength * lightColour;"
         "   vec3 norm = normalize(Normal);"
         "   vec3 lightDir = normalize(LightPos - FragPos);"
         "   float diff = max(dot(norm, lightDir), 0.0);"
         "   vec3 diffuse = diff * lightColour;"
-        "   float specularStrength = 0.5;"
+        "   float specularStrength = 0.9;"
         "   vec3 viewDir = normalize(-FragPos);"
         "   vec3 reflectDir = reflect(-lightDir, norm);"
         "   float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);"
