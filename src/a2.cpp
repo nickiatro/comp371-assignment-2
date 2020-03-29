@@ -915,7 +915,7 @@ int createVertexArrayObject()
         3,                   // size
         GL_FLOAT,            // type
         GL_FALSE,            // normalized?
-        3 * sizeof(vec3), // stride - each vertex contain 2 vec3 (position, color)
+        3 * sizeof(vec3), // stride - each vertex contain 2 vec3 (position, colour)
         (void*)0             // array buffer offset
     );
     glEnableVertexAttribArray(0);
@@ -926,7 +926,7 @@ int createVertexArrayObject()
         GL_FLOAT,
         GL_FALSE,
         3 * sizeof(vec3),
-        (void*)sizeof(vec3)      // color is offseted a vec3 (comes after position)
+        (void*)sizeof(vec3)      // colour is offseted a vec3 (comes after position)
     );
     glEnableVertexAttribArray(1);
 
@@ -935,7 +935,7 @@ int createVertexArrayObject()
         GL_FLOAT,
         GL_FALSE,
         3 * sizeof(vec3),
-        (void*)(2 * sizeof(vec3))      // color is offseted a vec3 (comes after position)
+        (void*)(2 * sizeof(vec3))      // colour is offseted a vec3 (comes after position)
     );
     glEnableVertexAttribArray(2);
 
@@ -962,7 +962,7 @@ int createTexturedCubeVertexArrayObject()
         3,                   // size
         GL_FLOAT,            // type
         GL_FALSE,            // normalized?
-        sizeof(TexturedColoredVertex), // stride - each vertex contain 2 vec3 (position, color)
+        sizeof(TexturedColoredVertex), // stride - each vertex contain 2 vec3 (position, colour)
         (void*)0             // array buffer offset
     );
     glEnableVertexAttribArray(0);
@@ -973,7 +973,7 @@ int createTexturedCubeVertexArrayObject()
         GL_FLOAT,
         GL_FALSE,
         sizeof(TexturedColoredVertex),
-        (void*)sizeof(vec3)      // color is offseted a vec3 (comes after position)
+        (void*)sizeof(vec3)      // colour is offseted a vec3 (comes after position)
     );
     glEnableVertexAttribArray(1);
 
@@ -982,7 +982,7 @@ int createTexturedCubeVertexArrayObject()
         GL_FLOAT,
         GL_FALSE,
         sizeof(TexturedColoredVertex),
-        (void*)(2 * sizeof(vec3))      // uv is offseted by 2 vec3 (comes after position and color)
+        (void*)(2 * sizeof(vec3))      // uv is offseted by 2 vec3 (comes after position and colour)
     );
     glEnableVertexAttribArray(2);
 
@@ -991,7 +991,7 @@ int createTexturedCubeVertexArrayObject()
         GL_FLOAT,
         GL_FALSE,
         sizeof(TexturedColoredVertex),
-        (void*)(3 * sizeof(vec3))      // uv is offseted by 2 vec3 (comes after position and color)
+        (void*)((2 * sizeof(vec3)) + sizeof(vec2))       // normal is offseted by 2 vec3 + vec2 (comes after position and colour and uv)
     );
     glEnableVertexAttribArray(3);
 
