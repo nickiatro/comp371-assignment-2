@@ -35,63 +35,64 @@ using namespace std;
 
 struct TexturedColoredVertex
 {
-    TexturedColoredVertex(vec3 _position, vec3 _color, vec2 _uv)
-        : position(_position), color(_color), uv(_uv) {}
+    TexturedColoredVertex(vec3 _position, vec3 _color, vec2 _uv, vec3 _normal)
+        : position(_position), color(_color), uv(_uv), normal(_normal) {}
 
     vec3 position;
     vec3 color;
     vec2 uv;
+    vec3 normal;
 };
 
 // Textured Cube model
 const TexturedColoredVertex texturedCubeVertexArray[] = {  // position,                            color
-    TexturedColoredVertex(vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f)), //left - red
-    TexturedColoredVertex(vec3(-0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f)),
-    TexturedColoredVertex(vec3(-0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f)),
+    TexturedColoredVertex(vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f), vec3(-0.5f,-0.5f,-0.5f)), //left - red
+    TexturedColoredVertex(vec3(-0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f), vec3(-0.5f,-0.5f, 0.5f)),
+    TexturedColoredVertex(vec3(-0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f), vec3(-0.5f, 0.5f, 0.5f)),
 
-    TexturedColoredVertex(vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f)),
-    TexturedColoredVertex(vec3(-0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f)),
-    TexturedColoredVertex(vec3(-0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f)),
+    TexturedColoredVertex(vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f), vec3(-0.5f,-0.5f,-0.5f)),
+    TexturedColoredVertex(vec3(-0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f), vec3(-0.5f, 0.5f, 0.5f)),
+    TexturedColoredVertex(vec3(-0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f), vec3(-0.5f, 0.5f,-0.5f)),
 
-    TexturedColoredVertex(vec3(0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f)), // far - blue
-    TexturedColoredVertex(vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f)),
-    TexturedColoredVertex(vec3(-0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f)),
+    TexturedColoredVertex(vec3(0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f), vec3(0.5f, 0.5f,-0.5f)), // far - blue
+    TexturedColoredVertex(vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f), vec3(-0.5f,-0.5f,-0.5f)),
+    TexturedColoredVertex(vec3(-0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f), vec3(-0.5f, 0.5f,-0.5f)),
 
-    TexturedColoredVertex(vec3(0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f)),
-    TexturedColoredVertex(vec3(0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f)),
-    TexturedColoredVertex(vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f)),
+    TexturedColoredVertex(vec3(0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f), vec3(0.5f, 0.5f,-0.5f)),
+    TexturedColoredVertex(vec3(0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f), vec3(0.5f,-0.5f,-0.5f)),
+    TexturedColoredVertex(vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f), vec3(-0.5f,-0.5f,-0.5f)),
 
-    TexturedColoredVertex(vec3(0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f)), // bottom - turquoise
-    TexturedColoredVertex(vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f)),
-    TexturedColoredVertex(vec3(0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f)),
+    TexturedColoredVertex(vec3(0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f), vec3(0.5f,-0.5f, 0.5f)), // bottom - turquoise
+    TexturedColoredVertex(vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f), vec3(-0.5f,-0.5f,-0.5f)),
+    TexturedColoredVertex(vec3(0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f), vec3(0.5f,-0.5f,-0.5f)),
 
-    TexturedColoredVertex(vec3(0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f)),
-    TexturedColoredVertex(vec3(-0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f)),
-    TexturedColoredVertex(vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f)),
+    TexturedColoredVertex(vec3(0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f), vec3(0.5f,-0.5f, 0.5f)),
+    TexturedColoredVertex(vec3(-0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f), vec3(-0.5f,-0.5f, 0.5f)),
+    TexturedColoredVertex(vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f), vec3(-0.5f,-0.5f,-0.5f)),
 
-    TexturedColoredVertex(vec3(-0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f)), // near - green
-    TexturedColoredVertex(vec3(-0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f)),
-    TexturedColoredVertex(vec3(0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f)),
+    TexturedColoredVertex(vec3(-0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f), vec3(-0.5f, 0.5f, 0.5f)), // near - green
+    TexturedColoredVertex(vec3(-0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f), vec3(-0.5f,-0.5f, 0.5f)),
+    TexturedColoredVertex(vec3(0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f), vec3(0.5f,-0.5f, 0.5f)),
 
-    TexturedColoredVertex(vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f)),
-    TexturedColoredVertex(vec3(-0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f)),
-    TexturedColoredVertex(vec3(0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f)),
+    TexturedColoredVertex(vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f), vec3(0.5f, 0.5f, 0.5f)),
+    TexturedColoredVertex(vec3(-0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f), vec3(-0.5f, 0.5f, 0.5f)),
+    TexturedColoredVertex(vec3(0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f), vec3(0.5f,-0.5f, 0.5f)),
 
-    TexturedColoredVertex(vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f)), // right - purple
-    TexturedColoredVertex(vec3(0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f)),
-    TexturedColoredVertex(vec3(0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f)),
+    TexturedColoredVertex(vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f), vec3(0.5f, 0.5f, 0.5f)), // right - purple
+    TexturedColoredVertex(vec3(0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f), vec3(0.5f,-0.5f,-0.5f)),
+    TexturedColoredVertex(vec3(0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f), vec3(0.5f, 0.5f,-0.5f)),
 
-    TexturedColoredVertex(vec3(0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f)),
-    TexturedColoredVertex(vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f)),
-    TexturedColoredVertex(vec3(0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f)),
+    TexturedColoredVertex(vec3(0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f), vec3(0.5f,-0.5f,-0.5f)),
+    TexturedColoredVertex(vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f), vec3(0.5f, 0.5f, 0.5f)),
+    TexturedColoredVertex(vec3(0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f), vec3(0.5f,-0.5f, 0.5f)),
 
-    TexturedColoredVertex(vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f)), // top - yellow
-    TexturedColoredVertex(vec3(0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f)),
-    TexturedColoredVertex(vec3(-0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f)),
+    TexturedColoredVertex(vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f), vec3(0.5f, 0.5f, 0.5f)), // top - yellow
+    TexturedColoredVertex(vec3(0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f), vec3(0.5f, 0.5f,-0.5f)),
+    TexturedColoredVertex(vec3(-0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f), vec3(-0.5f, 0.5f,-0.5f)),
 
-    TexturedColoredVertex(vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f)),
-    TexturedColoredVertex(vec3(-0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f)),
-    TexturedColoredVertex(vec3(-0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f))
+    TexturedColoredVertex(vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f), vec3(0.5f, 0.5f, 0.5f)),
+    TexturedColoredVertex(vec3(-0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f), vec3(-0.5f, 0.5f,-0.5f)),
+    TexturedColoredVertex(vec3(-0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f), vec3(-0.5f, 0.5f, 0.5f))
 };
 
 
@@ -161,7 +162,22 @@ int main(int argc, char* argv[])
     glUseProgram(shaderProgram);
 
     GLuint colourLocation = glGetUniformLocation(shaderProgram, "objectColour");
+    GLuint lightColour = glGetUniformLocation(shaderProgram, "lightColour");
+    GLuint lightPos = glGetUniformLocation(shaderProgram, "lightPos");
+
+    glUniform3fv(lightColour, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
+    glUniform3fv(lightPos, 1, glm::value_ptr(glm::vec3(0.0f, 30.0f, 0.0f)));
+
+    glUseProgram(texturedShaderProgram);
+
     GLuint texturedColourLocation = glGetUniformLocation(texturedShaderProgram, "objectColour");
+    GLuint texturedLightColour = glGetUniformLocation(texturedShaderProgram, "lightColour");
+    GLuint texturedLightPos = glGetUniformLocation(texturedShaderProgram, "lightPos");
+
+    glUniform3fv(texturedLightColour, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
+    glUniform3fv(texturedLightPos, 1, glm::value_ptr(glm::vec3(0.0f, 30.0f, 0.0f)));
+
+    glUseProgram(shaderProgram);
 
     // Camera parameters for view transform
     vec3 cameraPosition(-5.0f, 9.5f, 20.0f);
@@ -615,18 +631,27 @@ const char* getVertexShaderSource()
     return
         "#version 330 core\n"
         "layout (location = 0) in vec3 aPos;"
-        "layout (location = 1) in vec3 aColor;"
+        "layout(location = 1) in vec3 aNormal;"
+        "layout (location = 2) in vec3 aColor;"
         ""
         "uniform mat4 worldMatrix;"
         "uniform mat4 viewMatrix = mat4(1.0);"  // default value for view matrix (identity)
         "uniform mat4 projectionMatrix = mat4(1.0);"
         ""
+        "uniform vec3 lightPos;"
+        ""
         "out vec3 vertexColor;"
+        "out vec3 Normal;"
+        "out vec3 FragPos;"
+        "out vec3 LightPos;"
         "void main()"
         "{"
         "   vertexColor = aColor;"
         "   mat4 modelViewProjection = projectionMatrix * viewMatrix * worldMatrix;"
         "   gl_Position = modelViewProjection * vec4(aPos.x, aPos.y, aPos.z, 1.0);"
+        "   FragPos = vec3(viewMatrix * worldMatrix * vec4(aPos, 1.0));"
+        "   Normal = mat3(transpose(inverse(viewMatrix * worldMatrix))) * aNormal;"
+        "   LightPos = vec3(viewMatrix * vec4(lightPos, 1.0)); "
         "}";
 }
 
@@ -634,12 +659,28 @@ const char* getFragmentShaderSource()
 {
     return
         "#version 330 core\n"
+        "uniform vec3 lightColour;"
         "uniform vec3 objectColour;"
         "in vec3 vertexColor;"
+        "in vec3 FragPos;"
+        "in vec3 LightPos;"
+        "in vec3 Normal;"
         "out vec4 FragColor;"
         "void main()"
         "{"
-        "   FragColor = vec4(objectColour.r, objectColour.g, objectColour.b, 1.0f);"
+        "   float ambientStrength = 0.9;"
+        "   vec3 ambient = ambientStrength * lightColour;"
+        "   vec3 norm = normalize(Normal);"
+        "   vec3 lightDir = normalize(LightPos - FragPos);"
+        "   float diff = max(dot(norm, lightDir), 0.0);"
+        "   vec3 diffuse = diff * lightColour;"
+        "   float specularStrength = 0.5;"
+        "   vec3 viewDir = normalize(-FragPos);"
+        "   vec3 reflectDir = reflect(-lightDir, norm);"
+        "   float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);"
+        "   vec3 specular = specularStrength * spec * lightColour;"
+        "   vec3 result = (ambient + diffuse + specular) * objectColour;"
+        "   FragColor = vec4(result, 1.0); "
         "}";
 }
 
@@ -651,12 +692,18 @@ const char* getTexturedVertexShaderSource()
         "layout (location = 0) in vec3 aPos;"
         "layout (location = 1) in vec3 aColor;"
         "layout (location = 2) in vec2 aUV;"
+        "layout (location = 3) in vec3 aNormal;"
         ""
         "uniform mat4 worldMatrix;"
         "uniform mat4 viewMatrix = mat4(1.0);"  // default value for view matrix (identity)
         "uniform mat4 projectionMatrix = mat4(1.0);"
         ""
+        "uniform vec3 lightPos;"
+        ""
         "out vec3 vertexColor;"
+        "out vec3 Normal;"
+        "out vec3 FragPos;"
+        "out vec3 LightPos;"
         "out vec2 vertexUV;"
         ""
         "void main()"
@@ -665,6 +712,9 @@ const char* getTexturedVertexShaderSource()
         "   mat4 modelViewProjection = projectionMatrix * viewMatrix * worldMatrix;"
         "   gl_Position = modelViewProjection * vec4(aPos.x, aPos.y, aPos.z, 1.0);"
         "   vertexUV = aUV;"
+        "   FragPos = vec3(viewMatrix * worldMatrix * vec4(aPos, 1.0));"
+        "   Normal = mat3(transpose(inverse(viewMatrix * worldMatrix))) * aNormal;"
+        "   LightPos = vec3(viewMatrix * vec4(lightPos, 1.0)); "
         "}";
 }
 
@@ -672,15 +722,31 @@ const char* getTexturedFragmentShaderSource()
 {
     return
         "#version 330 core\n"
+        "uniform vec3 lightColour;"
         "uniform vec3 objectColour;"
         "in vec2 vertexUV;"
         "uniform sampler2D textureSampler;"
-        ""
+        "in vec3 vertexColor;"
+        "in vec3 FragPos;"
+        "in vec3 LightPos;"
+        "in vec3 Normal;"
         "out vec4 FragColor;"
         "void main()"
         "{"
         "   vec4 textureColor = texture( textureSampler, vertexUV );"
-        "   FragColor = textureColor * vec4(objectColour.r, objectColour.g, objectColour.b, 1.0f);"
+        "   float ambientStrength = 0.9;"
+        "   vec3 ambient = ambientStrength * lightColour;"
+        "   vec3 norm = normalize(Normal);"
+        "   vec3 lightDir = normalize(LightPos - FragPos);"
+        "   float diff = max(dot(norm, lightDir), 0.0);"
+        "   vec3 diffuse = diff * lightColour;"
+        "   float specularStrength = 0.5;"
+        "   vec3 viewDir = normalize(-FragPos);"
+        "   vec3 reflectDir = reflect(-lightDir, norm);"
+        "   float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);"
+        "   vec3 specular = specularStrength * spec * lightColour;"
+        "   vec3 result = (ambient + diffuse + specular) * objectColour;"
+        "   FragColor = textureColor * vec4(result, 1.0f);"
         "}";
 }
 
@@ -781,54 +847,54 @@ GLuint loadTexture(const char* filename)
 int createVertexArrayObject()
 {
     // Cube model
-    vec3 vertexArray[] = {  // position,                            color
-        vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), //left - red
-        vec3(-0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
-        vec3(-0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
+    vec3 vertexArray[] = {  // position,   normal,         colour                               
+        vec3(-0.5f,-0.5f,-0.5f), vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), //left - red
+        vec3(-0.5f,-0.5f, 0.5f), vec3(-0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(-0.5f, 0.5f, 0.5f), vec3(-0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
 
-        vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
-        vec3(-0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
-        vec3(-0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(-0.5f,-0.5f,-0.5f), vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(-0.5f, 0.5f, 0.5f), vec3(-0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(-0.5f, 0.5f,-0.5f), vec3(-0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
 
-        vec3(0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), // far - blue
-        vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
-        vec3(-0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(0.5f, 0.5f,-0.5f), vec3(0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(-0.5f,-0.5f,-0.5f), vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(-0.5f, 0.5f,-0.5f), vec3(-0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
 
-        vec3(0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
-        vec3(0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
-        vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(0.5f, 0.5f,-0.5f), vec3(0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(0.5f,-0.5f,-0.5f), vec3(0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(-0.5f,-0.5f,-0.5f), vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
 
-        vec3(0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), // bottom - turquoise
-        vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
-        vec3(0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(0.5f,-0.5f, 0.5f), vec3(0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(-0.5f,-0.5f,-0.5f), vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(0.5f,-0.5f,-0.5f), vec3(0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
 
-        vec3(0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
-        vec3(-0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
-        vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(0.5f,-0.5f, 0.5f), vec3(0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(-0.5f,-0.5f, 0.5f), vec3(-0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(-0.5f,-0.5f,-0.5f), vec3(-0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
 
-        vec3(-0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), // near - green
-        vec3(-0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
-        vec3(0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(-0.5f, 0.5f, 0.5f), vec3(-0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(-0.5f,-0.5f, 0.5f), vec3(-0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(0.5f,-0.5f, 0.5f), vec3(0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
 
-        vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
-        vec3(-0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
-        vec3(0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(-0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec3(1.0f, 1.0f, 1.0f),
 
-        vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), // right - purple
-        vec3(0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
-        vec3(0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec3(1.0f, 1.0f, 1.0f),
 
-        vec3(0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
-        vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
-        vec3(0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(0.5f,-0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(0.5f,-0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec3(1.0f, 1.0f, 1.0f),
 
-        vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), // top - yellow
-        vec3(0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
-        vec3(-0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(-0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec3(1.0f, 1.0f, 1.0f),
 
-        vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f),
-        vec3(-0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f),
-        vec3(-0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f)
+        vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(-0.5f, 0.5f,-0.5f), vec3(1.0f, 1.0f, 1.0f), vec3(1.0f, 1.0f, 1.0f),
+        vec3(-0.5f, 0.5f, 0.5f), vec3(1.0f, 1.0f, 1.0f), vec3(1.0f, 1.0f, 1.0f),
     };
 
 
@@ -848,7 +914,7 @@ int createVertexArrayObject()
         3,                   // size
         GL_FLOAT,            // type
         GL_FALSE,            // normalized?
-        2 * sizeof(vec3), // stride - each vertex contain 2 vec3 (position, color)
+        3 * sizeof(vec3), // stride - each vertex contain 2 vec3 (position, color)
         (void*)0             // array buffer offset
     );
     glEnableVertexAttribArray(0);
@@ -858,10 +924,19 @@ int createVertexArrayObject()
         3,
         GL_FLOAT,
         GL_FALSE,
-        2 * sizeof(vec3),
+        3 * sizeof(vec3),
         (void*)sizeof(vec3)      // color is offseted a vec3 (comes after position)
     );
     glEnableVertexAttribArray(1);
+
+    glVertexAttribPointer(2,                            // attribute 1 matches aColor in Vertex Shader
+        3,
+        GL_FLOAT,
+        GL_FALSE,
+        3 * sizeof(vec3),
+        (void*)(2 * sizeof(vec3))      // color is offseted a vec3 (comes after position)
+    );
+    glEnableVertexAttribArray(2);
 
     glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
     glBindVertexArray(0);
@@ -909,6 +984,15 @@ int createTexturedCubeVertexArrayObject()
         (void*)(2 * sizeof(vec3))      // uv is offseted by 2 vec3 (comes after position and color)
     );
     glEnableVertexAttribArray(2);
+
+    glVertexAttribPointer(3,                            // attribute 2 matches aUV in Vertex Shader
+        3,
+        GL_FLOAT,
+        GL_FALSE,
+        sizeof(TexturedColoredVertex),
+        (void*)(3 * sizeof(vec3))      // uv is offseted by 2 vec3 (comes after position and color)
+    );
+    glEnableVertexAttribArray(3);
 
     return vertexArrayObject;
 }
