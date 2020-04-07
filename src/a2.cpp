@@ -2324,8 +2324,8 @@ bool initContext() {     // Initialize GLFW and OpenGL version
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 #endif
 
-    // Create Window and rendering context using GLFW, resolution is 800x600
-    window = glfwCreateWindow(1024, 768, "COMP371 Winter 2020 Assignment 1", NULL, NULL);
+    // Create Window and rendering context using GLFW, resolution is 1024x768
+    window = glfwCreateWindow(1024, 768, "COMP371 Winter 2020 Assignment 2", NULL, NULL);
     if (window == NULL)
     {
         std::cerr << "Failed to create GLFW window" << std::endl;
